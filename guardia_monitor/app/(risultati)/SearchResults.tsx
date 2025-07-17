@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useOTPStore } from "../../store/otpStore";
 import { useEffect, useState } from 'react';
 import { FlashList } from "@shopify/flash-list";
+import Spinner from "@/components/Spinner";
 
 interface Breach {
   Name: string;
@@ -78,6 +79,7 @@ export default function SearchResults() {
                     )
                 }} />
                 <View style={styles.centeredContent}>
+                    <Spinner />
                     <Text style={styles.loadingText}>Ricerca in corso...</Text>
                 </View>
             </View>

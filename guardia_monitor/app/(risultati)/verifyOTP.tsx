@@ -2,18 +2,16 @@ import { useState } from "react";
 import { useOTPStore } from "../../store/otpStore";
 import { Stack, useRouter } from "expo-router";
 import { useEffect } from "react";
-import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import * as Haptics from 'expo-haptics';
+import { Ionicons } from "@expo/vector-icons";
 
 export default function VerifyOTP() {
     const [otp, setOtp] = useState('');
     const [error, setError] = useState('');
     const { email, verifyOTP, clearOTP } = useOTPStore();
     const router = useRouter();
-
-
   
     useEffect(() => {
       if (!email) {
@@ -24,8 +22,6 @@ export default function VerifyOTP() {
     const handleVerify = () => {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       if (verifyOTP(otp)) {
-        //Alert.alert('Successo', 'Codice OTP verificato con successo!');
-        //clearOTP();
         AsyncStorage.setItem('@is_authenticated', 'true');
         router.push('/(risultati)/SearchResults');
       } else {
@@ -40,7 +36,13 @@ export default function VerifyOTP() {
   
     return (
       <View style={styles.container}>
-        <Stack.Screen options={{ headerShown: true, title: 'Verifica OTP' }}>
+        <Stack.Screen options={{ headerShown: true, title: 'Verifica OTP',
+          headerRight: () => (
+            <TouchableOpacity style={{marginRight: 10}} onPress={() => router.push('/')}>
+              <Ionicons name="home" size={24} color="#043474" />
+            </TouchableOpacity>
+          )
+         }}>
         
         </Stack.Screen>
         <Text style={styles.title}>Verifica OTP</Text>

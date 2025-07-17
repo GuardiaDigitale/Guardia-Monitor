@@ -14,11 +14,12 @@ import {
   ScrollView,
   Alert
 } from "react-native";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { useOTPStore } from "../store/otpStore";
 import * as Haptics from 'expo-haptics';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFonts } from "expo-font";
+import Spinner from "@/components/Spinner";
 const { width } = Dimensions.get('window');
 
 const generateOTP = () => {
@@ -138,6 +139,18 @@ export default function Index() {
     inputRange: [0, 1],
     outputRange: ['#e0e0e0', '#007AFF']
   });
+
+  if(isLoading) {
+    return (
+      <View style={styles.container}>
+        <Stack.Screen options={{ headerShown: true, title: 'Caricamento' }} />
+        <View style={styles.centeredContent}>
+          <Spinner />
+          <Text style={styles.loadingText}>Invio email in corso...</Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <KeyboardAvoidingView
@@ -312,5 +325,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 8,
     elevation: 5,
+  },
+  loadingText: {
+    fontSize: 16,
+    color: '#28338a',
+    textAlign: 'center',
+    fontFamily: 'SofiaProSoft-Light',
+  },
+  centeredContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
