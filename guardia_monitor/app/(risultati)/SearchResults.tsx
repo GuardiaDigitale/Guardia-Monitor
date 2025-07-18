@@ -73,8 +73,8 @@ export default function SearchResults() {
                     headerShown: true, 
                     title: 'Caricamento',
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => router.push('/')}>
-                           <Ionicons name="home" size={24} style={{marginRight: 10}} color="#043474" />
+                        <TouchableOpacity onPress={() => router.push('/(risultati)/PreliminarySearchResults')}>
+                           <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
                         </TouchableOpacity>
                     )
                 }} />
@@ -93,8 +93,8 @@ export default function SearchResults() {
                     headerShown: true, 
                     title: 'Errore',
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => router.push('/')}>
-                           <Ionicons name="home" size={24} style={{marginRight: 10}} color="#043474" />
+                        <TouchableOpacity onPress={() => router.push('/(risultati)/PreliminarySearchResults')}>
+                           <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
                         </TouchableOpacity>
                     )
                 }} />
@@ -113,8 +113,8 @@ export default function SearchResults() {
                     headerShown: true, 
                     title: 'Nessuna violazione',
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => router.push('/')}>
-                           <Ionicons name="home" size={24} style={{marginRight: 10}} color="#043474" />
+                        <TouchableOpacity onPress={() => router.push('/(risultati)/PreliminarySearchResults')}>
+                           <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
                         </TouchableOpacity>
                     )
                 }} />
@@ -133,8 +133,8 @@ export default function SearchResults() {
                 headerShown: true, 
                 title: 'Risultati',
                 headerRight: () => (
-                    <TouchableOpacity onPress={() => router.push('/')}>
-                       <Ionicons name="home" size={24} style={{marginRight: 10}} color="#043474" />
+                    <TouchableOpacity onPress={() => router.push('/(risultati)/PreliminarySearchResults')}>
+                       <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
                     </TouchableOpacity>
                 )
             }} />

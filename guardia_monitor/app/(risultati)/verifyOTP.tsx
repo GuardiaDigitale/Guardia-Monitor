@@ -23,7 +23,7 @@ export default function VerifyOTP() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       if (verifyOTP(otp)) {
         AsyncStorage.setItem('@is_authenticated', 'true');
-        router.push('/(risultati)/SearchResults');
+        router.push('/(risultati)/PreliminarySearchResults');
       } else {
         setError('Codice OTP non valido o scaduto');
       }

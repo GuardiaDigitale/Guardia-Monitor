@@ -9,8 +9,8 @@ export default function ResultDetail() {
     return (
         <View style={styles.container}>
             <Stack.Screen options={{ headerShown: true, title: 'Dettaglio Risultato', headerRight: () => (
-                <TouchableOpacity onPress={() => router.push('/')}>
-                   <Ionicons name="home" size={24} style={{marginRight: 10}} color="#043474" />
+                <TouchableOpacity onPress={() => router.push('/(risultati)/SearchResults')}>
+                   <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
                 </TouchableOpacity>
              )}} />
             <Text style={styles.title}>Dettaglio Risultato</Text>
