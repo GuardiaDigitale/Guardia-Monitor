@@ -1,0 +1,602 @@
+[
+    {
+      "en": "Account balances",
+      "it": "Saldo bancario"
+    },
+    {
+      "en": "Address book contacts",
+      "it": "Contatti della rubrica"
+    },
+    {
+      "en": "Age groups",
+      "it": "Fasce d'età"
+    },
+    {
+      "en": "Ages",
+      "it": "Età"
+    },
+    {
+      "en": "Appointments",
+      "it": "Appuntamenti"
+    },
+    {
+      "en": "Apps installed on devices",
+      "it": "App installate sui dispositivi"
+    },
+    {
+      "en": "Astrological signs",
+      "it": "Segni zodiacali"
+    },
+    {
+      "en": "Audio recordings",
+      "it": "Registrazioni audio"
+    },
+    {
+      "en": "Auth tokens",
+      "it": "Token di autenticazione"
+    },
+    {
+      "en": "Avatars",
+      "it": "Avatar"
+    },
+    {
+      "en": "Bank account numbers",
+      "it": "Numeri di conto bancario"
+    },
+    {
+      "en": "Beauty ratings",
+      "it": "Valutazioni di bellezza"
+    },
+    {
+      "en": "Biometric data",
+      "it": "Dati biometrici"
+    },
+    {
+      "en": "Bios",
+      "it": "Biografie"
+    },
+    {
+      "en": "Browser user agent details",
+      "it": "Dettagli user agent del browser"
+    },
+    {
+      "en": "Browsing histories",
+      "it": "Cronologie di navigazione"
+    },
+    {
+      "en": "Buying preferences",
+      "it": "Preferenze d'acquisto"
+    },
+    {
+      "en": "Car ownership statuses",
+      "it": "Stati di proprietà dell'auto"
+    },
+    {
+      "en": "Career levels",
+      "it": "Livelli di carriera"
+    },
+    {
+      "en": "Cellular network names",
+      "it": "Nomi delle reti cellulari"
+    },
+    {
+      "en": "Charitable donations",
+      "it": "Donazioni benefiche"
+    },
+    {
+      "en": "Chat logs",
+      "it": "Registri delle chat"
+    },
+    {
+      "en": "Citizenship statuses",
+      "it": "Stati di cittadinanza"
+    },
+    {
+      "en": "Clothing sizes",
+      "it": "Taglie di abbigliamento"
+    },
+    {
+      "en": "Comments",
+      "it": "Commenti"
+    },
+    {
+      "en": "Company names",
+      "it": "Nomi delle aziende"
+    },
+    {
+      "en": "Credit card CVV",
+      "it": "CVV della carta di credito"
+    },
+    {
+      "en": "Credit cards",
+      "it": "Carte di credito"
+    },
+    {
+      "en": "Credit status information",
+      "it": "Informazioni sullo stato del credito"
+    },
+    {
+      "en": "Cryptocurrency wallet addresses",
+      "it": "Indirizzi di portafogli di criptovalute"
+    },
+    {
+      "en": "Customer feedback",
+      "it": "Feedback dei clienti"
+    },
+    {
+      "en": "Customer interactions",
+      "it": "Interazioni con i clienti"
+    },
+    {
+      "en": "Dates of birth",
+      "it": "Date di nascita"
+    },
+    {
+      "en": "Deceased date",
+      "it": "Data del decesso"
+    },
+    {
+      "en": "Deceased statuses",
+      "it": "Stati di decesso"
+    },
+    {
+      "en": "Delivery instructions",
+      "it": "Istruzioni di consegna"
+    },
+    {
+      "en": "Device information",
+      "it": "Informazioni sul dispositivo"
+    },
+    {
+      "en": "Device serial numbers",
+      "it": "Numeri di serie dei dispositivi"
+    },
+    {
+      "en": "Device usage tracking data",
+      "it": "Dati di tracciamento dell'uso del dispositivo"
+    },
+    {
+      "en": "Drinking habits",
+      "it": "Abitudini di consumo di alcol"
+    },
+    {
+      "en": "Driver's licenses",
+      "it": "Patenti di guida"
+    },
+    {
+      "en": "Drug habits",
+      "it": "Abitudini relative all'uso di droghe"
+    },
+    {
+      "en": "Earnings",
+      "it": "Guadagni"
+    },
+    {
+      "en": "Eating habits",
+      "it": "Abitudini alimentari"
+    },
+    {
+      "en": "Education levels",
+      "it": "Livelli di istruzione"
+    },
+    {
+      "en": "Email addresses",
+      "it": "Indirizzi email"
+    },
+    {
+      "en": "Email messages",
+      "it": "Messaggi email"
+    },
+    {
+      "en": "Employers",
+      "it": "Datori di lavoro"
+    },
+    {
+      "en": "Employment statuses",
+      "it": "Stati occupazionali"
+    },
+    {
+      "en": "Encrypted keys",
+      "it": "Chiavi crittografate"
+    },
+    {
+      "en": "Ethnicities",
+      "it": "Etnie"
+    },
+    {
+      "en": "Family members' names",
+      "it": "Nomi dei familiari"
+    },
+    {
+      "en": "Family plans",
+      "it": "Piani familiari"
+    },
+    {
+      "en": "Family structure",
+      "it": "Struttura familiare"
+    },
+    {
+      "en": "Financial investments",
+      "it": "Investimenti finanziari"
+    },
+    {
+      "en": "Financial transactions",
+      "it": "Transazioni finanziarie"
+    },
+    {
+      "en": "Fitness levels",
+      "it": "Livelli di forma fisica"
+    },
+    {
+      "en": "Flights taken",
+      "it": "Voli effettuati"
+    },
+    {
+      "en": "Genders",
+      "it": "Generi"
+    },
+    {
+      "en": "Geographic locations",
+      "it": "Posizioni geografiche"
+    },
+    {
+      "en": "Government issued IDs",
+      "it": "Documenti d'identità governativi"
+    },
+    {
+      "en": "Health insurance information",
+      "it": "Informazioni sull'assicurazione sanitaria"
+    },
+    {
+      "en": "Historical passwords",
+      "it": "Password storiche"
+    },
+    {
+      "en": "HIV statuses",
+      "it": "Stati sierologici HIV"
+    },
+    {
+      "en": "Home ownership statuses",
+      "it": "Stati di proprietà della casa"
+    },
+    {
+      "en": "Homepage URLs",
+      "it": "URL della home page"
+    },
+    {
+      "en": "IMEI numbers",
+      "it": "Numeri IMEI"
+    },
+    {
+      "en": "IMSI numbers",
+      "it": "Numeri IMSI"
+    },
+    {
+      "en": "Income levels",
+      "it": "Livelli di reddito"
+    },
+    {
+      "en": "Instant messenger identities",
+      "it": "Identità di messaggistica istantanea"
+    },
+    {
+      "en": "IP addresses",
+      "it": "Indirizzi IP"
+    },
+    {
+      "en": "Job applications",
+      "it": "Candidature di lavoro"
+    },
+    {
+      "en": "Job titles",
+      "it": "Titoli professionali"
+    },
+    {
+      "en": "Licence plates",
+      "it": "Targhe automobilistiche"
+    },
+    {
+      "en": "Living costs",
+      "it": "Costi della vita"
+    },
+    {
+      "en": "Loan information",
+      "it": "Informazioni sui prestiti"
+    },
+    {
+      "en": "Login histories",
+      "it": "Cronologie di accesso"
+    },
+    {
+      "en": "Loyalty program details",
+      "it": "Dettagli dei programmi fedeltà"
+    },
+    {
+      "en": "MAC addresses",
+      "it": "Indirizzi MAC"
+    },
+    {
+      "en": "Marital statuses",
+      "it": "Stati civili"
+    },
+    {
+      "en": "Military service",
+      "it": "Servizio militare"
+    },
+    {
+      "en": "Mnemonic phrases",
+      "it": "Frasi mnemoniche"
+    },
+    {
+      "en": "Mothers maiden names",
+      "it": "Nomi da nubile delle madri"
+    },
+    {
+      "en": "Names",
+      "it": "Anagrafica"
+    },
+    {
+      "en": "Nationalities",
+      "it": "Nazionalità"
+    },
+    {
+      "en": "Net worths",
+      "it": "Patrimoni netti"
+    },
+    {
+      "en": "Nicknames",
+      "it": "Soprannomi"
+    },
+    {
+      "en": "Occupations",
+      "it": "Occupazioni"
+    },
+    {
+      "en": "Parenting plans",
+      "it": "Piani di genitorialità"
+    },
+    {
+      "en": "Partial credit card data",
+      "it": "Dati parziali della carta di credito"
+    },
+    {
+      "en": "Partial dates of birth",
+      "it": "Date di nascita parziali"
+    },
+    {
+      "en": "Partial phone numbers",
+      "it": "Numeri di telefono parziali"
+    },
+    {
+      "en": "Passport numbers",
+      "it": "Numeri di passaporto"
+    },
+    {
+      "en": "Password hints",
+      "it": "Suggerimenti per le password"
+    },
+    {
+      "en": "Password strengths",
+      "it": "Sicurezza delle password"
+    },
+    {
+      "en": "Passwords",
+      "it": "Password"
+    },
+    {
+      "en": "Payment histories",
+      "it": "Storici dei pagamenti"
+    },
+    {
+      "en": "Payment methods",
+      "it": "Metodi di pagamento"
+    },
+    {
+      "en": "Personal descriptions",
+      "it": "Descrizioni personali"
+    },
+    {
+      "en": "Personal health data",
+      "it": "Dati sanitari personali"
+    },
+    {
+      "en": "Personal interests",
+      "it": "Interessi personali"
+    },
+    {
+      "en": "Phone numbers",
+      "it": "Numeri di telefono"
+    },
+    {
+      "en": "Photos",
+      "it": "Foto"
+    },
+    {
+      "en": "Physical addresses",
+      "it": "Indirizzi fisici"
+    },
+    {
+      "en": "Physical attributes",
+      "it": "Attributi fisici"
+    },
+    {
+      "en": "PINs",
+      "it": "PIN"
+    },
+    {
+      "en": "Places of birth",
+      "it": "Luoghi di nascita"
+    },
+    {
+      "en": "Political donations",
+      "it": "Donazioni politiche"
+    },
+    {
+      "en": "Political views",
+      "it": "Orientamenti politici"
+    },
+    {
+      "en": "Private messages",
+      "it": "Messaggi privati"
+    },
+    {
+      "en": "Professional skills",
+      "it": "Competenze professionali"
+    },
+    {
+      "en": "Profile photos",
+      "it": "Foto profilo"
+    },
+    {
+      "en": "Purchases",
+      "it": "Acquisti"
+    },
+    {
+      "en": "Purchasing habits",
+      "it": "Abitudini d'acquisto"
+    },
+    {
+      "en": "Races",
+      "it": "Razze"
+    },
+    {
+      "en": "Recovery email addresses",
+      "it": "Indirizzi email di recupero"
+    },
+    {
+      "en": "Relationship statuses",
+      "it": "Stati delle relazioni"
+    },
+    {
+      "en": "Religions",
+      "it": "Religioni"
+    },
+    {
+      "en": "Reward program balances",
+      "it": "Saldi dei programmi premio"
+    },
+    {
+      "en": "Salutations",
+      "it": "Formule di saluto"
+    },
+    {
+      "en": "School grades (class levels)",
+      "it": "Voti scolastici (livelli di classe)"
+    },
+    {
+      "en": "Security questions and answers",
+      "it": "Domande e risposte di sicurezza"
+    },
+    {
+      "en": "Sexual fetishes",
+      "it": "Feticismi sessuali"
+    },
+    {
+      "en": "Sexual orientations",
+      "it": "Orientamenti sessuali"
+    },
+    {
+      "en": "Shipment tracking numbers",
+      "it": "Numeri di tracciamento delle spedizioni"
+    },
+    {
+      "en": "Smoking habits",
+      "it": "Abitudini relative al fumo"
+    },
+    {
+      "en": "SMS messages",
+      "it": "Messaggi SMS"
+    },
+    {
+      "en": "Social connections",
+      "it": "Connessioni sociali"
+    },
+    {
+      "en": "Social media profiles",
+      "it": "Profili dei social media"
+    },
+    {
+      "en": "Social security numbers",
+      "it": "Numeri di previdenza sociale"
+    },
+    {
+      "en": "Spoken languages",
+      "it": "Lingue parlate"
+    },
+    {
+      "en": "Spouses names",
+      "it": "Nomi dei coniugi"
+    },
+    {
+      "en": "Support tickets",
+      "it": "Ticket di assistenza"
+    },
+    {
+      "en": "Survey results",
+      "it": "Risultati dei sondaggi"
+    },
+    {
+      "en": "Tattoo status",
+      "it": "Stato dei tatuaggi"
+    },
+    {
+      "en": "Taxation records",
+      "it": "Registri fiscali"
+    },
+    {
+      "en": "Telecommunications carrier",
+      "it": "Operatore di telecomunicazioni"
+    },
+    {
+      "en": "Time zones",
+      "it": "Fusi orari"
+    },
+    {
+      "en": "Travel habits",
+      "it": "Abitudini di viaggio"
+    },
+    {
+      "en": "Travel plans",
+      "it": "Piani di viaggio"
+    },
+    {
+      "en": "User statuses",
+      "it": "Stati dell'utente"
+    },
+    {
+      "en": "User website URLs",
+      "it": "URL del sito web dell'utente"
+    },
+    {
+      "en": "Usernames",
+      "it": "Username"
+    },
+    {
+      "en": "Utility bills",
+      "it": "Bollette dei servizi"
+    },
+    {
+      "en": "Vehicle details",
+      "it": "Dettagli del veicolo"
+    },
+    {
+      "en": "Vehicle identification numbers (VINs)",
+      "it": "Numeri di identificazione del veicolo (VIN)"
+    },
+    {
+      "en": "Warranty claims",
+      "it": "Reclami di garanzia"
+    },
+    {
+      "en": "Website activity",
+      "it": "Attività del sito web"
+    },
+    {
+      "en": "Work habits",
+      "it": "Abitudini lavorative"
+    },
+    {
+      "en": "Years of professional experience",
+      "it": "Anni di esperienza professionale"
+    }
+  ]
