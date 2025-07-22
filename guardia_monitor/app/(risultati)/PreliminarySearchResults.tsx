@@ -47,11 +47,11 @@ export default function PreliminarySearchResults() {
 
     const processDataClasses = (breaches: Breach[]) => {
         const levelCounts = [
-            { label: 'Violazione dati sensibili', value: 0, color: '#e74c3c' },    // Red for critical
-            { label: 'Violazione password', value: 0, color: '#e67e22' },      // Orange for high
-            { label: 'Violazione critica', value: 0, color: '#f39c12' },     // Yellow for medium
-            { label: 'Violazione normale', value: 0, color: '#3498db' },     // Blue for low
-            { label: 'Violazione standard', value: 0, color: '#2ecc71' }     // Green for minimal
+            { label: 'Violazione dati sensibili', value: 0, color: '#e74c3c' },    
+            { label: 'Violazione password', value: 0, color: '#e67e22' },      
+            { label: 'Violazione critica', value: 0, color: '#f39c12' },     
+            { label: 'Violazione normale', value: 0, color: '#3498db' },     
+            { label: 'Violazione standard', value: 0, color: '#2ecc71' }    
         ];
 
         breaches.forEach(breach => {
@@ -121,18 +121,18 @@ export default function PreliminarySearchResults() {
         centerX: number,
         centerY: number,
       ) {
-        // Calculate the midpoint angle of the slice for a central gradient effect
+        // Calcola il punto medio dell'angolo per l'effetto gradiente centrale
         const midAngle = (startAngle + endAngle) / 2;
       
-        // Convert angles from degrees to radians
+        // Converti angoli in radianti
         const startRad = (Math.PI / 180) * startAngle;
         const midRad = (Math.PI / 180) * midAngle;
       
-        // Calculate start point (inner edge near the pie's center)
+        // Calcola il punto di partenza (lato interno vicino al centro del grafico)
         const startX = centerX + radius * 0.5 * Math.cos(startRad);
         const startY = centerY + radius * 0.5 * Math.sin(startRad);
       
-        // Calculate end point (outer edge of the slice)
+        // Calcola il punto finale (lato esterno dell'angolo)
         const endX = centerX + radius * Math.cos(midRad);
         const endY = centerY + radius * Math.sin(midRad);
       
@@ -178,33 +178,47 @@ export default function PreliminarySearchResults() {
             </View>
         );
     }
-     if (breaches.length === 0) {
-            return (
-                <View style={styles.container}>
-                    <Stack.Screen options={{ 
-                        headerShown: true, 
-                        title: 'Nessuna violazione',
-                        headerRight: () => (
-                            <TouchableOpacity onPress={() => router.push('/')}>
-                               <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
-                            </TouchableOpacity>
-                        )
-                    }} />
-                    <View style={styles.centeredContent}>
-                        <Ionicons name="checkmark-circle" size={64} color="#2ecc71" style={styles.icon} />
-                        <Text style={styles.successTitle}>Nessuna violazione trovata</Text>
-                        <Text style={styles.successText}>Il tuo indirizzo email non è stato coinvolto in violazioni di dati note.</Text>
-                    </View>
-                </View>
-            );
-        }
+    if (breaches.length === 0) {
+        return (
+          <View style={{
+            flex: 1,
+            backgroundColor: '#c8e6c9',
+          }}>
+            <Stack.Screen options={{
+              headerShown: true,
+              title: 'Nessuna violazione',
+              headerRight: () => (
+                <TouchableOpacity onPress={() => router.push('/')}>
+                  <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
+                </TouchableOpacity>
+              )
+            }} />
+            <View style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingHorizontal: 20,
+            }}>
+              <View style={styles.smileyContainer}>
+                <Ionicons name="happy-outline" size={80} color="#043474" style={styles.smileyIcon} />
+              </View>
+              <Text style={styles.successTitle}>OTTIME NOTIZIE!</Text>
+              <Text style={styles.successText}>
+                La tua mail non è stata rilevata{'\n'}
+                in nessuna violazione fra{'\n'}
+                quelle da noi monitorate
+              </Text>
+            </View>
+          </View>
+        );
+      }
 
         const allLevels = [
-            { label: 'Violazione dati sensibili', value: 0, color: '#e74c3c' },
-            { label: 'Violazione password', value: 0, color: '#e67e22' },
-            { label: 'Violazione critica', value: 0, color: '#f39c12' },
-            { label: 'Violazione normale', value: 0, color: '#3498db' },
-            { label: 'Violazione standard', value: 0, color: '#2ecc71' }
+            { label: 'Violazione dati sensibili', value: 0, color: '#71660d' },
+            { label: 'Violazione password', value: 0, color: '#d01317' },
+            { label: 'Violazione critica', value: 0, color: '#e75e0d' },
+            { label: 'Violazione normale', value: 0, color: '#f6a214' },
+            { label: 'Violazione standard', value: 0, color: '#f7d81f' }
         ];
 
         allLevels.forEach(level => {
@@ -282,7 +296,7 @@ export default function PreliminarySearchResults() {
                         </View>
                     )}
     
-                    <View style={styles.summaryContainer}>
+                    {/*<View style={styles.summaryContainer}>
                         <Text style={styles.summaryTitle}>Riepilogo Rapido</Text>
                         <Text style={styles.summaryText}>
                             • {breaches.length} violazioni rilevate
@@ -290,7 +304,15 @@ export default function PreliminarySearchResults() {
                         {chartData.length > 0 && <Text style={styles.summaryText}>
                             • Categoria più comune: {chartData[0]?.label || 'N/A'}
                         </Text>}
-                    </View>
+                    </View>*/}
+                    <View style={styles.buttonContainer}>
+                    <TouchableOpacity 
+                        style={styles.secondaryButton} 
+                        onPress={() => router.push('/(contatti)/ConsulenzaIntro')}
+                    >
+                        <Text style={styles.buttonText}>Richiedi consulenza</Text>
+                        <Ionicons name="arrow-forward" size={20} color="white" style={{marginLeft: 8}} />
+                    </TouchableOpacity>
     
                     <TouchableOpacity 
                         style={styles.button} 
@@ -299,6 +321,7 @@ export default function PreliminarySearchResults() {
                         <Text style={styles.buttonText}>Visualizza Elenco</Text>
                         <Ionicons name="arrow-forward" size={20} color="white" style={{marginLeft: 8}} />
                     </TouchableOpacity>
+                    </View>
                 </View>
             </ScrollView>
         );
@@ -427,21 +450,57 @@ const styles = StyleSheet.create({
     icon: {
         marginBottom: 16,
     },
-    successTitle: {
-        fontSize: 24,
+      smileyContainer: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        borderWidth: 3,
+        borderColor: '#043474',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent',
+        marginBottom: 30,
+      },
+      successTitle: {
+        fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 16,
         color: '#043474',
-    },
-    successText: {
-        fontSize: 16,
-        color: '#28338a',
         textAlign: 'center',
+        marginBottom: 20,
+        letterSpacing: 1,
+      },
+      successText: {
+        fontSize: 16,
+        color: '#043474',
+        textAlign: 'center',
+        lineHeight: 24,
+        fontWeight: '500',
+      },
+    buttonContainer: {
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 16,
     },
     button: {
         backgroundColor: '#043474',
         paddingVertical: 15,
-        paddingHorizontal: 25,
+        paddingHorizontal: 80,
+        borderRadius: 30,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        width: '100%',
+    },
+    secondaryButton: {
+        backgroundColor: '#54a4c7',
+        paddingVertical: 15,
+        paddingHorizontal: 70,
         borderRadius: 30,
         flexDirection: 'row',
         justifyContent: 'center',

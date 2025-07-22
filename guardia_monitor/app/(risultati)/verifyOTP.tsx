@@ -86,25 +86,25 @@ export default function VerifyOTP() {
       flex: 1,
       justifyContent: 'center',
       padding: 24,
-      backgroundColor: '#dbe7f2', // Light blue background
+      backgroundColor: '#dbe7f2', 
     },
     title: {
       fontSize: 24,
       fontFamily: 'SofiaProSoft-Bold',
-      color: '#28338a', // Dark blue
+      color: '#28338a', 
       marginBottom: 16,
       textAlign: 'center',
     },
     subtitle: {
       fontSize: 16,
       fontFamily: 'SofiaProSoft-Light',
-      color: '#28338a', // Dark blue
+      color: '#28338a', 
       marginBottom: 32,
       textAlign: 'center',
     },
     input: {
       borderWidth: 2,
-      borderColor: '#54a4c7', // Medium blue
+      borderColor: '#54a4c7', 
       borderRadius: 12,
       padding: 16,
       marginBottom: 16,
@@ -119,7 +119,7 @@ export default function VerifyOTP() {
       marginTop: 24,
     },
     button: {
-      backgroundColor: '#54a4c7', // Medium blue
+      backgroundColor: '#54a4c7', 
       padding: 20,
       borderRadius: 12,
       alignItems: 'center',
@@ -130,7 +130,7 @@ export default function VerifyOTP() {
       elevation: 3,
     },
     buttonCancel: {
-      backgroundColor: '#e74c3c', // Rosso per l'annullamento
+      backgroundColor: '#e74c3c', 
       padding: 20,
       borderRadius: 12,
       alignItems: 'center',
@@ -149,10 +149,10 @@ export default function VerifyOTP() {
       fontFamily: 'SofiaProSoft-Bold',
     },
     inputError: {
-      borderColor: '#e74c3c', // Rosso per errore
+      borderColor: '#e74c3c', 
     },
     errorText: {
-      color: '#e74c3c', // Rosso per errore
+      color: '#e74c3c', 
       marginBottom: 16,
       textAlign: 'center',
       fontFamily: 'SofiaProSoft-Light',

@@ -21,7 +21,6 @@ export default function PrivacyScreen() {
   const onNavigationStateChange = (navState: any) => {
     setCanGoBack(navState.canGoBack);
 };
-  // Gestisce il pulsante indietro fisico di Android
   useEffect(() => {
       const backAction = () => {
           if(canGoBack) {
@@ -29,7 +28,7 @@ export default function PrivacyScreen() {
           }else{
               router.push('/')
           }
-          return true; // Previene il comportamento predefinito di uscire dall'app
+          return true;
       };
 
       const backHandler = BackHandler.addEventListener(

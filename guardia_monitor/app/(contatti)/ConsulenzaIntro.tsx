@@ -6,27 +6,14 @@ import { Alert, Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 
 export default function ConsulenzaIntroScreen() {
   const router = useRouter();
 
-  /*const handleCompilaModulo = () => {
-    // TODO: Navigare alla schermata del modulo
-    console.log('Naviga al modulo di consulenza');
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    router.push('/(consulenza)/ConsulenzaForm');
-  };*/
   const handleTelefonare = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     Linking.openURL('tel:+390550108325');
   };
-
-  /*const handleCompilaModulo = () => {
-    // TODO: Navigare alla schermata del modulo
-    console.log('Naviga al modulo di consulenza');
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    Linking.openURL('https://forms.clickup.com/30362235/f/wyjkv-15555/MFAPTJKR4WYRZEKAVX');
-  };*/
   
    const handleCompilaModulo = async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    const email = 'nis2@guardiadigitale.it'; // Replace with the actual email address
+    const email = 'nis2@guardiadigitale.it';
     const subject = 'Richiesta di consulenza NIS2';
     const body = 'Salve,\n\nvorrei ricevere una prima consulenza gratuita da GUARDIA DIGITALE circa la conformità alla Direttiva NIS2.\n\nCordiali saluti,';
     const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -74,19 +61,11 @@ export default function ConsulenzaIntroScreen() {
       />
 
       <View style={styles.content}>
-        {/* Titolo principale */}
         <Text style={styles.mainTitle}>RICHIEDI</Text>
         <Text style={styles.mainTitle}>UNA CONSULENZA</Text>
 
-        {/* Logo GD */}
         <View style={styles.logoContainer}>
           <View style={styles.logoWrapper}>
-            {/*<Text style={styles.logoG}>G</Text>
-            <Text style={styles.logoD}>D</Text>
-            <View style={styles.logoIcon}>
-              <View style={styles.logoIconTop} />
-              <View style={styles.logoIconBottom} />
-            </View>*/}
             <Image 
           source={require('@/assets/images/GD.png')} 
           style={styles.logo} 
@@ -110,7 +89,6 @@ export default function ConsulenzaIntroScreen() {
         </View>*/}
 
 
-        {/* Pulsante Compila Modulo */}
         <TouchableOpacity 
           style={styles.compilaButton}
           onPress={handleCompilaModulo}
@@ -154,7 +132,6 @@ export default function ConsulenzaIntroScreen() {
         </TouchableOpacity>
         
 
-        {/* Informazioni di contatto */}
         <View style={styles.contactInfo}>
           <Text style={styles.contactTitle}>Contattaci</Text>
           

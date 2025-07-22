@@ -1,340 +1,316 @@
-import { useCallback, useEffect, useState } from "react";
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  StyleSheet, 
-  KeyboardAvoidingView, 
-  Platform,
-  Image,
-  Dimensions,
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
   Animated,
-  Easing,
-  ScrollView,
-  Alert
-} from "react-native";
-import { Stack, useRouter } from "expo-router";
-import { useOTPStore } from "../store/otpStore";
+  Dimensions,
+  SafeAreaView,
+} from 'react-native';
+import { useOTPStore } from '../store/otpStore';
+import AuthBottomSheet from '../components/AuthBottomSheet';
 import * as Haptics from 'expo-haptics';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useFonts } from "expo-font";
-import Spinner from "@/components/Spinner";
+import { Stack, useRouter } from 'expo-router';
+
 const { width } = Dimensions.get('window');
 
-const generateOTP = () => {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-};
-
-export default function Index() {
-  const animation = new Animated.Value(0);
-  const [email, setEmail] = useState("");
-  const [isValid, setIsValid] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-  /*const [loaded] = useFonts({
-    SofiaProSoftLight: require('../assets/fonts/SofiaProSoftLight.ttf'),
-    SofiaProSoftBold: require('../assets/fonts/SofiaProSoftBold.ttf'),
-  });*/
-
+export default function MainScreen() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isScanning, setIsScanning] = useState(false);
+  
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const rotateAnim = useRef(new Animated.Value(0)).current;
   const router = useRouter();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      await useOTPStore.getState().loadOTP();
-      const { expiresAt } = useOTPStore.getState();
-      
-      if (expiresAt && expiresAt > Date.now()) {
-        // Se l'OTP è valido e non è scaduto, vai alla verifica
-        router.replace('/(risultati)/verifyOTP');
-      } else {
-        // In tutti gli altri casi, torna alla home
-        router.replace('/');
+    const unsubscribe = useOTPStore.subscribe(
+      (state) => {
+        const isAuth = state.isVerified && !!state.email;
+        setIsAuthenticated(isAuth);
       }
-      setIsLoading(false);
-    };
-
-    checkAuth();
+    );
+  
+    checkAuthStatus();
+    startPulseAnimation();
+    
+    return () => unsubscribe();
   }, []);
 
+  const checkAuthStatus = async () => {
+    await useOTPStore.getState().loadOTP();
+    const { isVerified, email } = useOTPStore.getState();
+    setIsAuthenticated(isVerified && !!email);
+  };
 
+  const startPulseAnimation = () => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, {
+          toValue: 1.15,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 2000,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  };
 
-
-
-  const handleSubmit = useCallback(async () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    if (!validateEmail(email)) {
-      setIsValid(false);
+  const handleMainButtonPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    
+    if (isAuthenticated) {
+      handleStartScan();
+    } else {
       return;
     }
 
-    setIsLoading(true);
-    const otp = generateOTP();
-    
+    Animated.sequence([
+      Animated.timing(scaleAnim, {
+        toValue: 0.95,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  const handleStartScan = async () => {
+    setIsScanning(true);
+    Animated.loop(
+      Animated.timing(rotateAnim, {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true,
+      })
+    ).start();
+
     try {
-      const response = await fetch('https://guardiadigitale.it/api/send_otp_simple.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          otp: otp
-        }),
-      });
-
-      const data = await response.json();
-      
-      if (response.ok) {
-      await useOTPStore.getState().setOTP(email, otp);
-      console.log("OTP inviato con successo");
-      console.log(otp);
-      router.push('/(risultati)/verifyOTP');
-    } else {
-          setIsValid(false);
-          const shake = new Animated.Value(0);
-          Animated.sequence([
-            Animated.timing(shake, { toValue: 10, duration: 50, useNativeDriver: true }),
-            Animated.timing(shake, { toValue: -10, duration: 50, useNativeDriver: true }),
-            Animated.timing(shake, { toValue: 10, duration: 50, useNativeDriver: true }),
-            Animated.timing(shake, { toValue: 0, duration: 50, useNativeDriver: true })
-          ]).start();
-      }
+      setTimeout(() => {
+        setIsScanning(false);
+        rotateAnim.setValue(0);
+        router.push('/(risultati)/PreliminarySearchResults');
+      }, 3000);
     } catch (error) {
-      Alert.alert(
-        "Errore",
-        "Si è verificato un errore durante l'invio del codice OTP. Riprova più tardi."
-      );
-    } finally {
-      setIsLoading(false);
+      console.error("Errore durante la scansione:", error);
+      setIsScanning(false);
+      rotateAnim.setValue(0);
     }
-  }, [email]);
-
-  const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
   };
 
-  const handleFocus = () => {
-    setIsFocused(true);
-    Animated.timing(animation, {
-      toValue: 1,
-      duration: 200,
-      easing: Easing.ease,
-      useNativeDriver: true
-    }).start();
+  const handleAuthSuccess = () => {
+    setIsAuthenticated(true);
   };
 
-  const handleBlur = () => {
-    setIsFocused(false);
-    Animated.timing(animation, {
-      toValue: 0,
-      duration: 200,
-      easing: Easing.ease,
-      useNativeDriver: true
-    }).start();
-  };
-
-  const inputBorderColor = animation.interpolate({
+  const rotate = rotateAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: ['#e0e0e0', '#007AFF']
+    outputRange: ['0deg', '360deg'],
   });
 
-  if(isLoading) {
-    return (
-      <View style={styles.container}>
-        <Stack.Screen options={{ headerShown: true, title: 'Caricamento' }} />
-        <View style={styles.centeredContent}>
-          <Spinner />
-          <Text style={styles.loadingText}>Invio email in corso...</Text>
-        </View>
-      </View>
-    );
-  }
+  const getButtonContent = () => {
+    if (isScanning) {
+      return {
+        text: "Scansione in corso...",
+        disabled: true
+      };
+    } else if (isAuthenticated) {
+      return {
+        text: "TAP TO SCAN!",
+        disabled: false
+      };
+    } else {
+      return {
+        text: "Inserisci la tua mail",
+        disabled: true
+      };
+    }
+  };
+
+  const buttonContent = getButtonContent();
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <ScrollView 
-        contentContainerStyle={styles.scrollContainer}
-        keyboardShouldPersistTaps="handled"
-      >
-        <View style={styles.header}>
-          {/*<Image
-            source={require('@/assets/images/guardia-logo.png')}
-            style={styles.logo}
-            resizeMode="cover"
-          />*/}
-          <Text style={styles.title}>Benvenuto in</Text>
-          <Text style={styles.brand}>Guardia Monitor</Text>
-        </View>
+    <SafeAreaView style={styles.container}>
+      <Stack.Screen options={{ headerShown: true, title: 'Guardia Monitor', headerStyle: { backgroundColor: '#28338a' }, headerTintColor: '#fff' }} />
+      <View style={styles.header}>
+        <Text style={styles.title}>
+          PROTEGGI LA TUA IDENTITÀ{'\n'}DIGITALE, A PARTIRE DALLA{'\n'}TUA E-MAIL
+        </Text>
+      </View>
 
-        <View style={styles.introBox}>
-          <Text style={styles.introText}>Testo di introduzione all'app...</Text>
-        </View>
-
-        <View style={styles.formSection}>
+      <View style={styles.mainContent}>
+        <TouchableOpacity
+          onPress={handleMainButtonPress}
+          activeOpacity={buttonContent.disabled ? 1 : 0.8}
+          disabled={buttonContent.disabled}
+          style={styles.iconTouchable}
+        >
           <Animated.View 
             style={[
-              styles.inputWrapper,
-              { 
-                borderColor: !isValid ? '#ff4444' : isFocused ? '#007AFF' : '#e0e0e0',
+              styles.iconContainer,
+              {
                 transform: [
-                  {
-                    translateX: !isValid ? 
-                      new Animated.Value(0) : 
-                      animation.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [0, 1]
-                      })
-                  }
+                  { scale: isAuthenticated ? Animated.multiply(scaleAnim, pulseAnim) : scaleAnim },
+                  { rotate: isScanning ? rotate : '0deg' }
                 ]
               }
             ]}
           >
-            <TextInput
-              style={styles.input}
-              placeholder="La tua email"
-              placeholderTextColor="#999"
-              value={email}
-              onChangeText={setEmail}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </Animated.View>
-          
-          {!isValid && (
-            <View style={styles.errorContainer}>
-              <Text style={styles.errorText}>Inserisci un'email valida</Text>
+            <View style={[
+              styles.iconCircle,
+              buttonContent.disabled && styles.disabledIcon
+            ]}>
             </View>
-          )}
+          </Animated.View>
+        </TouchableOpacity>
 
-          <TouchableOpacity 
-            style={[styles.button, styles.shadow]}
-            onPress={handleSubmit}
-            activeOpacity={0.9}
-          >
-            <Text style={styles.buttonText}>Invia mail</Text>
-          </TouchableOpacity>
+        <View style={styles.textContainer}>
+          <Text style={styles.buttonText}>{buttonContent.text}</Text>
+          <Text style={styles.buttonSubtext}>
+            {isAuthenticated ? 'premi per iniziare la scansione' : 'autenticati per continuare'}
+          </Text>
         </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </View>
+
+      <AuthBottomSheet
+        onAuthSuccess={handleAuthSuccess}
+      />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#dbe7f2', // Light blue background from the palette
+    backgroundColor: '#28338a',
   },
-  scrollContainer: {
-    flexGrow: 1,
-    padding: 24,
-    paddingTop: 60,
+  topBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  menuButton: {
+    padding: 10,
+  },
+  menuLine: {
+    width: 24,
+    height: 3,
+    backgroundColor: '#ffffff',
+    marginVertical: 2,
+    borderRadius: 2,
+  },
+  exportButton: {
+    padding: 10,
+  },
+  exportIcon: {
+    fontSize: 20,
+    color: '#ffffff',
   },
   header: {
     alignItems: 'center',
-    marginBottom: 40,
+    paddingHorizontal: 30,
+    paddingTop: 20,
+    paddingBottom: 40,
   },
   title: {
-    fontSize: 24,
-    color: '#28338a', // Dark blue from the palette
-    textAlign: 'center',
-    fontFamily: 'SofiaProSoft-Light', // Need to load this font
-    marginBottom: 8,
-  },
-  brand: {
-    fontSize: 36,
+    fontSize: 22,
     fontWeight: '700',
-    color: '#28338a', // Dark blue from the palette
+    color: '#ffffff',
     textAlign: 'center',
-    fontFamily: 'SofiaProSoft-Bold', // Need to load this font
+    lineHeight: 28,
+    letterSpacing: 0.5,
   },
-  introBox: {
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 24,
-    marginBottom: 32,
-    shadowColor: 'rgba(0, 0, 0, 0.1)',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 12,
-    elevation: 3,
-  },
-  introText: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: '#28338a',
-    textAlign: 'center',
-    fontFamily: 'SofiaProSoft-Light',
-  },
-  formSection: {
-    width: '100%',
-  },
-  inputWrapper: {
-    borderWidth: 2,
-    borderRadius: 12,
-    backgroundColor: '#fff',
-    marginBottom: 8,
-    borderColor: '#54a4c7', // Medium blue from the palette
-  },
-  input: {
-    padding: 18,
-    fontSize: 16,
-    color: '#28338a',
-    fontFamily: 'SofiaProSoft-Light',
-  },
-  errorContainer: {
-    marginBottom: 16,
-    marginTop: 8,
-  },
-  errorText: {
-    color: '#e74c3c',
-    fontSize: 14,
-    textAlign: 'center',
-    fontFamily: 'SofiaProSoft-Light',
-  },
-  button: {
-    backgroundColor: '#54a4c7', // Medium blue from the palette
-    padding: 20,
-    borderRadius: 12,
-    width: '100%',
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-    fontFamily: 'SofiaProSoft-Bold',
-  },
-  // Add a logo style if you want to add the Guardia Monitor logo
-  logo: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-  },
-  shadow: {
-    shadowColor: '#007AFF',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  loadingText: {
-    fontSize: 16,
-    color: '#28338a',
-    textAlign: 'center',
-    fontFamily: 'SofiaProSoft-Light',
-  },
-  centeredContent: {
+  mainContent: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 30,
+  },
+  iconTouchable: {
+    marginBottom: 60,
+  },
+  iconContainer: {
+
+  },
+  iconCircle: {
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: '#7fb3d3',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  disabledIcon: {
+    backgroundColor: '#95a5d8',
+    opacity: 0.4,
+    transform: [{ scale: 0.95 }],
+  },
+  shieldIcon: {
+    fontSize: 40,
+    color: '#ffffff',
+  },
+  networkLines: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
+  dot: {
+    position: 'absolute',
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#ffffff',
+  },
+  dot1: {
+    top: 20,
+    left: 30,
+  },
+  dot2: {
+    top: 30,
+    right: 25,
+  },
+  dot3: {
+    bottom: 25,
+    left: 25,
+  },
+  dot4: {
+    bottom: 30,
+    right: 30,
+  },
+  textContainer: {
+    alignItems: 'center',
+    paddingVertical: 8,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 28,
+    fontWeight: '800',
+    textAlign: 'center',
+    letterSpacing: 1.5,
+    marginBottom: 4,
+  },
+  buttonSubtext: {
+    color: '#b8c5f2',
+    fontSize: 16,
+    textAlign: 'center',
+    letterSpacing: 0.5,
+    fontStyle: 'italic',
   },
 });

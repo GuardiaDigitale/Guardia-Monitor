@@ -73,7 +73,7 @@ export default ({ config }) => {
     owner: "unirex",
     version: "1.0.0",
     orientation: "portrait",
-    icon: "./assets/images/GD.png",
+    icon: "./assets/images/logoApp.png",
     scheme: getScheme(),
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
@@ -96,7 +96,7 @@ export default ({ config }) => {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/images/adaptive-icon.png",
+        foregroundImage: "./assets/images/logoApp.png",
         backgroundColor: "#ffffff",
       },
       permissions: ["VIBRATE"],
