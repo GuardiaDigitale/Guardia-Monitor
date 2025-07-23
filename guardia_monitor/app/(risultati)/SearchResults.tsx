@@ -36,6 +36,36 @@ export default function SearchResults() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+    const processDataClasses = (breaches: Breach[]) => {
+      const levelCounts= [
+          { label: 'Violazione dati sensibili', value: 0, color: '#71660d' },
+          { label: 'Violazione password', value: 0, color: '#d01317' },
+          { label: 'Violazione critica', value: 0, color: '#e75e0d' },
+          { label: 'Violazione normale', value: 0, color: '#f6a214' },
+          { label: 'Violazione standard', value: 0, color: '#f7d81f' }
+      ];
+
+      breaches.forEach(breach => {
+          const hasPasswords = breach.DataClasses.includes('Passwords');
+          const dataClassCount = breach.DataClasses.length;
+
+          if (breach.IsSensitive) {
+              levelCounts[0].value++;
+          } else if (hasPasswords) {
+              levelCounts[1].value++;
+          } else if (dataClassCount >= 3) {
+              levelCounts[2].value++;
+          } else if (dataClassCount === 2) {
+              levelCounts[3].value++;
+          } else {
+              levelCounts[4].value++;
+          }
+      });
+      return levelCounts.filter(level => level.value > 0);
+  };
+
+    const [chartData, setChartData] = useState<any[]>([]);
+
     useEffect(() => {
         const fetchBreaches = async () => {
             if (!email) return;
@@ -43,7 +73,6 @@ export default function SearchResults() {
             try {
                 setLoading(true);
                 const response = await fetch(`https://guardiadigitale.it/api/proxy_hipb.php?email=${encodeURIComponent(email)}`);
-                
                 if (response.status === 404) {
                     setBreaches([]);
                     return;
@@ -55,6 +84,11 @@ export default function SearchResults() {
                 
                 const data = await response.json();
                 setBreaches(data || []);
+                
+                if (data && data.length > 0) {
+                    const processedData = processDataClasses(data);
+                    setChartData(processedData);
+                }
             } catch (err) {
                 setError(err instanceof Error ? err.message : 'Si è verificato un errore');
                 console.error('Error fetching breach data:', err);
@@ -73,7 +107,7 @@ export default function SearchResults() {
                     headerShown: true, 
                     title: 'Caricamento',
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => router.push('/(risultati)/PreliminarySearchResults')}>
+                        <TouchableOpacity onPress={() => router.replace('/(risultati)/PreliminarySearchResults')}>
                            <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
                         </TouchableOpacity>
                     )
@@ -93,7 +127,7 @@ export default function SearchResults() {
                     headerShown: true, 
                     title: 'Errore',
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => router.push('/(risultati)/PreliminarySearchResults')}>
+                        <TouchableOpacity onPress={() => router.replace('/(risultati)/PreliminarySearchResults')}>
                            <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
                         </TouchableOpacity>
                     )
@@ -113,7 +147,7 @@ export default function SearchResults() {
                     headerShown: true, 
                     title: 'Nessuna violazione',
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => router.push('/(risultati)/PreliminarySearchResults')}>
+                        <TouchableOpacity onPress={() => router.replace('/(risultati)/PreliminarySearchResults')}>
                            <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
                         </TouchableOpacity>
                     )
@@ -127,20 +161,28 @@ export default function SearchResults() {
         );
     }
 
+    const getBreachLevelColor = (breach: Breach): string => {
+      if (breach.IsSensitive) return '#71660d'; // Violazione dati sensibili
+      if (breach.DataClasses.includes('Passwords')) return '#d01317'; // Violazione password
+      if (breach.DataClasses.length >= 3) return '#e75e0d'; // Violazione critica
+      if (breach.DataClasses.length === 2) return '#f6a214'; // Violazione normale
+      return '#f7d81f'; // Violazione standard
+  };
+
     return (
         <View style={styles.container}>
             <Stack.Screen options={{ 
                 headerShown: true, 
                 title: 'Risultati',
                 headerRight: () => (
-                    <TouchableOpacity onPress={() => router.push('/(risultati)/PreliminarySearchResults')}>
+                    <TouchableOpacity onPress={() => router.replace('/(risultati)/PreliminarySearchResults')}>
                        <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
                     </TouchableOpacity>
                 )
             }} />
             
             <View style={styles.listContainer}>
-            <Text style={[styles.title, {color: '#d32f2f'}]}>⚠️ La tua email {email} è coinvolta in {breaches.length} violazioni di sicurezza</Text>
+            {/*<Text style={[styles.title, {color: '#d32f2f'}]}>⚠️ La tua email {email} è coinvolta in {breaches.length} violazioni di sicurezza</Text>*/}
     <FlashList
   data={breaches.sort((a,b) => new Date(b.BreachDate).getTime() - new Date(a.BreachDate).getTime())}
   renderItem={({ item }) => {
@@ -149,12 +191,26 @@ export default function SearchResults() {
       month: '2-digit',
       year: 'numeric',
     });
-
+    const breachColor = getBreachLevelColor(item);
     return (
       <TouchableOpacity 
-        style={styles.breachCard}
+        style={{ 
+          backgroundColor: '#dbe7f2',
+          borderRadius: 32,
+          padding: 20,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.1,
+          shadowRadius: 10,
+          elevation: 3,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          borderLeftWidth: 16,
+          borderLeftColor: breachColor,
+        }}
         activeOpacity={0.9}
-        onPress={() => router.push('/(risultati)/ResultDetail')}
+        onPress={() => router.replace({pathname: '/(risultati)/ResultDetail', params: {breach: JSON.stringify(item)}})}
       >
         <View style={styles.breachContent}>
           {/* Logo */}
@@ -168,33 +224,28 @@ export default function SearchResults() {
           
           {/* Testo */}
           <View style={styles.textContainer}>
-            <View style={styles.headerRow}>
-              <Text style={styles.breachName} numberOfLines={1}>
-                {item.Name}
-              </Text>
-              <View style={styles.arrowIcon}>
-                {/*<Ionicons 
-                name="chevron-forward" 
-                size={18} 
-                color="#7C8DB5" 
-                style={styles.arrowIcon}
-              />*/}
-              </View>
-            </View>
-            
+            <Text style={styles.breachName} numberOfLines={1}>
+              {item.Name}
+            </Text>
+            {item.Domain && <View style={[styles.metaItem, {marginVertical: 5}]}>
+                  <Ionicons name="globe" size={14} color="#7C8DB5" style={styles.metaIcon} />
+                  <Text style={styles.metaText} numberOfLines={1}>
+                    {item.Domain.replace(/^https?:\/\//, '').split('/')[0]}
+                  </Text>
+            </View>}
             <View style={styles.metaContainer}>
               <View style={styles.metaItem}>
                 <Ionicons name="calendar" size={14} color="#7C8DB5" style={styles.metaIcon} />
                 <Text style={styles.metaText}>{formattedDate}</Text>
               </View>
-              <View style={styles.metaItem}>
-                <Ionicons name="people" size={14} color="#7C8DB5" style={styles.metaIcon} />
-                <Text style={styles.metaText}>{item.PwnCount.toLocaleString()}</Text>
-              </View>
             </View>
-            
           </View>
         </View>
+        <Ionicons 
+          name="chevron-forward" 
+          size={24} 
+          color="#7C8DB5"
+        />
       </TouchableOpacity>
     );
   }}
@@ -211,9 +262,68 @@ export default function SearchResults() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#28338a',
         padding: 16,
     },
+    container: {
+      flex: 1,
+      backgroundColor: '#28338a',
+      padding: 16,
+  },
+  listContainer: {
+      flex: 1,
+      paddingTop: 16,
+  },
+  listContent: {
+      paddingBottom: 20,
+  },
+  separator: {
+      height: 16,
+  },
+  breachContent: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      flex: 1,
+  },
+  logoContainer: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      backgroundColor: 'white',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 16,
+      overflow: 'hidden',
+  },
+  logo: {
+      width: 30,
+      height: 30,
+  },
+  textContainer: {
+      flex: 1,
+  },
+  breachName: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: '#2D3A5E',
+      marginBottom: 4,
+  },
+  metaContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+  },
+  metaItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginRight: 16,
+  },
+  metaIcon: {
+      marginRight: 4,
+  },
+  metaText: {
+      fontSize: 14,
+      color: '#7C8DB5',
+  },
     scrollView: {
         flex: 1,
     },
@@ -237,15 +347,7 @@ const styles = StyleSheet.create({
         marginBottom: 6,
       },
       arrowIcon: {
-        marginLeft: 8,
-        alignSelf: 'center',
-      },
-      breachName: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#2D3A5E',
-        marginBottom: 4,
-        flex: 1,
+        marginLeft: 16,
         alignSelf: 'center',
       },
       moreInfo: {
@@ -273,14 +375,8 @@ const styles = StyleSheet.create({
         color: '#7C8DB5',
         fontStyle: 'italic',
       },
-    listContent: {
-        padding: 16,
-      },
-      separator: {
-        height: 12,
-      },
       breachCard: {
-        backgroundColor: 'white',
+        backgroundColor: '#f5f5f5',
         borderRadius: 12,
         padding: 16,
         shadowColor: '#000',
@@ -288,41 +384,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 10,
         elevation: 3,
-      },
-      breachContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-      },
-      logoContainer: {
-        width: 40,
-        height: 40,
-        borderRadius: 8,
-        backgroundColor: '#F5F7FF',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 12,
-      },
-      logo: {
-        width: 24,
-        height: 24,
-      },
-      textContainer: {
-        flex: 1,
-      },
-      metaContainer: {
-        flexDirection: 'row',
-      },
-      metaItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginRight: 16,
-      },
-      metaIcon: {
-        marginRight: 4,
-      },
-      metaText: {
-        fontSize: 13,
-        color: '#7C8DB5',
       },
       statusBadge: {
         backgroundColor: '#FFE8E8',
@@ -428,9 +489,5 @@ const styles = StyleSheet.create({
         color: '#555',
         textAlign: 'center',
         lineHeight: 24,
-    },
-    listContainer: {
-        flex: 1,
-        width: '100%',
     },
 });

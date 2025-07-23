@@ -46,12 +46,12 @@ export default function PreliminarySearchResults() {
     const [chartData, setChartData] = useState<ChartData[]>([]);
 
     const processDataClasses = (breaches: Breach[]) => {
-        const levelCounts = [
-            { label: 'Violazione dati sensibili', value: 0, color: '#e74c3c' },    
-            { label: 'Violazione password', value: 0, color: '#e67e22' },      
-            { label: 'Violazione critica', value: 0, color: '#f39c12' },     
-            { label: 'Violazione normale', value: 0, color: '#3498db' },     
-            { label: 'Violazione standard', value: 0, color: '#2ecc71' }    
+        const levelCounts= [
+            { label: 'Violazione dati sensibili', value: 0, color: '#71660d' },
+            { label: 'Violazione password', value: 0, color: '#d01317' },
+            { label: 'Violazione critica', value: 0, color: '#e75e0d' },
+            { label: 'Violazione normale', value: 0, color: '#f6a214' },
+            { label: 'Violazione bassa', value: 0, color: '#f7d81f' }
         ];
 
         breaches.forEach(breach => {
@@ -146,7 +146,7 @@ export default function PreliminarySearchResults() {
                     headerShown: true, 
                     title: 'Caricamento',
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => router.push('/')}>
+                        <TouchableOpacity onPress={() => router.replace('/')}>
                            <Ionicons name="home" size={24} style={{marginRight: 10}} color="#043474" />
                         </TouchableOpacity>
                     )
@@ -166,7 +166,7 @@ export default function PreliminarySearchResults() {
                     headerShown: true, 
                     title: 'Errore',
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => router.push('/')}>
+                        <TouchableOpacity onPress={() => router.replace('/')}>
                            <Ionicons name="home" size={24} style={{marginRight: 10}} color="#043474" />
                         </TouchableOpacity>
                     )
@@ -188,7 +188,7 @@ export default function PreliminarySearchResults() {
               headerShown: true,
               title: 'Nessuna violazione',
               headerRight: () => (
-                <TouchableOpacity onPress={() => router.push('/')}>
+                <TouchableOpacity onPress={() => router.replace('/')}>
                   <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
                 </TouchableOpacity>
               )
@@ -218,7 +218,7 @@ export default function PreliminarySearchResults() {
             { label: 'Violazione password', value: 0, color: '#d01317' },
             { label: 'Violazione critica', value: 0, color: '#e75e0d' },
             { label: 'Violazione normale', value: 0, color: '#f6a214' },
-            { label: 'Violazione standard', value: 0, color: '#f7d81f' }
+            { label: 'Violazione bassa', value: 0, color: '#f7d81f' }
         ];
 
         allLevels.forEach(level => {
@@ -232,17 +232,16 @@ export default function PreliminarySearchResults() {
                     headerShown: true, 
                     title: 'Risultati Preliminari',
                     headerRight: () => (
-                        <TouchableOpacity onPress={() => router.push('/')}>
+                        <TouchableOpacity onPress={() => router.replace('/')}>
                            <Ionicons name="home" size={24} style={{marginRight: 10}} color="#043474" />
                         </TouchableOpacity>
                     )
                 }} />
                 
                 <View style={styles.container}>
-                    <View style={styles.statsContainer}>
-                        <Text style={styles.title}>Riepilogo Violazioni</Text>
-                        <Text style={styles.subtitle}>
-                            Trovate {breaches.length} violazioni per il tuo indirizzo email
+                <View style={styles.statsContainer}>
+                        <Text style={[styles.title, { fontSize: 24, fontWeight: 'bold' }]}>
+                            {breaches.length} Violazioni trovate
                         </Text>
                     </View>
     
@@ -308,7 +307,7 @@ export default function PreliminarySearchResults() {
                     <View style={styles.buttonContainer}>
                     <TouchableOpacity 
                         style={styles.secondaryButton} 
-                        onPress={() => router.push('/(contatti)/ConsulenzaIntro')}
+                        onPress={() => router.replace('/(contatti)/ConsulenzaIntro')}
                     >
                         <Text style={styles.buttonText}>Richiedi consulenza</Text>
                         <Ionicons name="arrow-forward" size={20} color="white" style={{marginLeft: 8}} />
@@ -316,7 +315,7 @@ export default function PreliminarySearchResults() {
     
                     <TouchableOpacity 
                         style={styles.button} 
-                        onPress={() => router.push('/(risultati)/SearchResults')}
+                        onPress={() => router.replace('/(risultati)/SearchResults')}
                     >
                         <Text style={styles.buttonText}>Visualizza Elenco</Text>
                         <Ionicons name="arrow-forward" size={20} color="white" style={{marginLeft: 8}} />
@@ -350,16 +349,10 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         color: '#043474',
-        marginBottom: 8,
-        textAlign: 'center',
-    },
-    subtitle: {
-        fontSize: 16,
-        color: '#28338a',
         textAlign: 'center',
     },
     chartContainer: {
-        backgroundColor: 'white',
+        backgroundColor: '#dbe7f2',
         borderRadius: 15,
         padding: 20,
         marginBottom: 30,
@@ -382,12 +375,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     chartWrapper: {
-        height: 300,
+        height: 200,
         width: '100%',
         marginBottom: 20,
     },
     legend: {
         width: '100%',
+        gap: 5,
     },
     legendTitle: {
         fontSize: 16,
@@ -408,7 +402,8 @@ const styles = StyleSheet.create({
     },
     legendText: {
         fontSize: 14,
-        color: '#333',
+        fontWeight: 'bold',
+        color: '#043474',
         flex: 1,
     },
     summaryContainer: {

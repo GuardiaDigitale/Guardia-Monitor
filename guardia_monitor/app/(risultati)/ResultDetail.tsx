@@ -1,11 +1,13 @@
 import { View, Text, StyleSheet } from "react-native";
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 
 export default function ResultDetail() {
     const router = useRouter();
+    const params = useLocalSearchParams();
+    const breach = JSON.parse(params.breach as string);
     return (
         <View style={styles.container}>
             <Stack.Screen options={{ headerShown: true, title: 'Dettaglio Risultato', headerRight: () => (
@@ -13,7 +15,7 @@ export default function ResultDetail() {
                    <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
                 </TouchableOpacity>
              )}} />
-            <Text style={styles.title}>Dettaglio Risultato</Text>
+            <Text style={styles.title}>{breach.Title}</Text>
         </View>
     );
 }

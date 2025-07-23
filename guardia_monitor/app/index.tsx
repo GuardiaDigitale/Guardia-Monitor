@@ -7,13 +7,17 @@ import {
   Animated,
   Dimensions,
   SafeAreaView,
+  Image,
 } from 'react-native';
 import { useOTPStore } from '../store/otpStore';
 import AuthBottomSheet from '../components/AuthBottomSheet';
 import * as Haptics from 'expo-haptics';
-import { Stack, useRouter } from 'expo-router';
+import { Stack, useNavigation, useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
+
+
 
 export default function MainScreen() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -86,7 +90,11 @@ export default function MainScreen() {
 
   const handleStartScan = async () => {
     setIsScanning(true);
-    Animated.loop(
+    const { email } = useOTPStore.getState();
+    const startTime = Date.now();
+    
+    // Avvia l'animazione
+    const animation = Animated.loop(
       Animated.timing(rotateAnim, {
         toValue: 1,
         duration: 2000,
@@ -95,13 +103,51 @@ export default function MainScreen() {
     ).start();
 
     try {
-      setTimeout(() => {
-        setIsScanning(false);
-        rotateAnim.setValue(0);
-        router.push('/(risultati)/PreliminarySearchResults');
-      }, 3000);
+      // Esegui la chiamata API
+      const response = await fetch(`https://guardiadigitale.it/api/proxy_hipb.php?email=${encodeURIComponent(email)}`);
+      console.log("url called: ", `https://guardiadigitale.it/api/proxy_hipb.php?email=${encodeURIComponent(email)}`);
+      // Gestisci il caso in cui non ci siano violazioni (404)
+      if (response.status === 404) {
+        // Calcola il tempo rimanente per raggiungere almeno 3 secondi
+        const elapsedTime = Date.now() - startTime;
+        const minDelay = 3000;
+        const remainingTime = Math.max(0, minDelay - elapsedTime);
+        
+        // Attendi il tempo rimanente
+        await new Promise(resolve => setTimeout(resolve, remainingTime));
+        
+        // Passa un array vuoto per indicare che non ci sono violazioni
+        router.replace({
+          pathname: '/(risultati)/PreliminarySearchResults',
+          //params: { breaches: JSON.stringify([]) }
+        });
+        return;
+      }
+      
+      if (!response.ok) {
+        throw new Error('Errore nel recupero dei dati di violazione');
+      }
+      
+      const data = await response.json();
+      
+      // Calcola il tempo rimanente per raggiungere almeno 3 secondi
+      const elapsedTime = Date.now() - startTime;
+      const minDelay = 3000;
+      const remainingTime = Math.max(0, minDelay - elapsedTime);
+      
+      // Attendi il tempo rimanente
+      await new Promise(resolve => setTimeout(resolve, remainingTime));
+      
+      // Passa i dati alla schermata dei risultati
+      router.replace({
+        pathname: '/(risultati)/PreliminarySearchResults',
+       // params: { breaches: JSON.stringify(data || []) }
+      });
     } catch (error) {
       console.error("Errore durante la scansione:", error);
+      // Mostra un messaggio di errore all'utente
+      //Alert.alert("Errore", "Si è verificato un errore durante la scansione. Riprova.");
+    } finally {
       setIsScanning(false);
       rotateAnim.setValue(0);
     }
@@ -129,17 +175,24 @@ export default function MainScreen() {
       };
     } else {
       return {
-        text: "Inserisci la tua mail",
+        text: "Verifica la tua mail per iniziare la scansione",
         disabled: true
       };
     }
   };
 
   const buttonContent = getButtonContent();
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.container}>
-      <Stack.Screen options={{ headerShown: true, title: 'Guardia Monitor', headerStyle: { backgroundColor: '#28338a' }, headerTintColor: '#fff' }} />
+      <Stack.Screen options={{ headerShown: true, headerTitleStyle: { color: '#dbe7f2',display: 'none' }, title: '', headerStyle: { backgroundColor: '#28338a' }, headerTintColor: '#fff', 
+      headerLeft: () => (
+        <TouchableOpacity style={{ paddingLeft: 15 }} onPress={() => navigation.openDrawer()}>
+          <Ionicons name="menu" size={30} color="#dbe7f2" />
+        </TouchableOpacity>
+      ) }} 
+      />
       <View style={styles.header}>
         <Text style={styles.title}>
           PROTEGGI LA TUA IDENTITÀ{'\n'}DIGITALE, A PARTIRE DALLA{'\n'}TUA E-MAIL
@@ -168,6 +221,14 @@ export default function MainScreen() {
               styles.iconCircle,
               buttonContent.disabled && styles.disabledIcon
             ]}>
+              <Image 
+                source={require('@/assets/images/scanButton.png')}
+                style={[
+                  styles.shieldImage,
+                  buttonContent.disabled && styles.disabledImage
+                ]}
+                resizeMode="contain"
+              />
             </View>
           </Animated.View>
         </TouchableOpacity>
@@ -175,7 +236,7 @@ export default function MainScreen() {
         <View style={styles.textContainer}>
           <Text style={styles.buttonText}>{buttonContent.text}</Text>
           <Text style={styles.buttonSubtext}>
-            {isAuthenticated ? 'premi per iniziare la scansione' : 'autenticati per continuare'}
+            {isAuthenticated ? 'premi per iniziare la scansione' : ''}
           </Text>
         </View>
       </View>
@@ -206,7 +267,7 @@ const styles = StyleSheet.create({
   menuLine: {
     width: 24,
     height: 3,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#54a4c7',
     marginVertical: 2,
     borderRadius: 2,
   },
@@ -215,7 +276,7 @@ const styles = StyleSheet.create({
   },
   exportIcon: {
     fontSize: 20,
-    color: '#ffffff',
+    color: '#54a4c7',
   },
   header: {
     alignItems: 'center',
@@ -226,16 +287,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: '700',
-    color: '#ffffff',
+    color: '#dbe7f2',
     textAlign: 'center',
     lineHeight: 28,
     letterSpacing: 0.5,
   },
   mainContent: {
-    flex: 1,
+    //flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 30,
+    paddingVertical: 60,
   },
   iconTouchable: {
     marginBottom: 60,
@@ -262,9 +324,13 @@ const styles = StyleSheet.create({
     opacity: 0.4,
     transform: [{ scale: 0.95 }],
   },
-  shieldIcon: {
-    fontSize: 40,
-    color: '#ffffff',
+  shieldImage: {
+    width: 70,
+    height: 70,
+    tintColor: '#ffffff', // Colora l'icona di bianco
+  },
+  disabledImage: {
+    opacity: 0.6,
   },
   networkLines: {
     position: 'absolute',
@@ -299,7 +365,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   buttonText: {
-    color: '#ffffff',
+    color: '#b8c5f2',
     fontSize: 28,
     fontWeight: '800',
     textAlign: 'center',
