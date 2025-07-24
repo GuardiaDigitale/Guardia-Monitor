@@ -52,7 +52,7 @@ export function CustomDrawerContent(props: any) {
           key={item.label}
           style={[styles.menuItem, { paddingHorizontal: 16 }]}
           onPress={() => {
-            router.push(item.route);
+            router.replace(item.route);
           }}
         >
           <View style={styles.menuItemContent}>

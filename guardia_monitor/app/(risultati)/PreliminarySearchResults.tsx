@@ -214,7 +214,7 @@ export default function PreliminarySearchResults() {
       }
 
         const allLevels = [
-            { label: 'Violazione dati sensibili', value: 0, color: '#71660d' },
+            { label: 'Violazione dati sensibili', value: 0, color: '#76160d' },
             { label: 'Violazione password', value: 0, color: '#d01317' },
             { label: 'Violazione critica', value: 0, color: '#e75e0d' },
             { label: 'Violazione normale', value: 0, color: '#f6a214' },

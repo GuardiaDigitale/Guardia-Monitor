@@ -312,9 +312,9 @@ export default function AuthBottomSheet({ onAuthSuccess }) {
         const emailToShowAuthenticated = useOTPStore.getState().email;
         return (
           <View style={styles.contentContainer}>
-            <Text style={styles.title}>Email inserita</Text>
+            <Text style={styles.title}>Email Verificata</Text>
             <Text style={styles.subtitle}>
-              Connesso come: {emailToShowAuthenticated}
+              {emailToShowAuthenticated}
             </Text>
             
             <View style={styles.authenticatedInfo}>

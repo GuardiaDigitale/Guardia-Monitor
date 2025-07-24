@@ -8,6 +8,7 @@ import {
   Dimensions,
   SafeAreaView,
   Image,
+  Alert,
 } from 'react-native';
 import { useOTPStore } from '../store/otpStore';
 import AuthBottomSheet from '../components/AuthBottomSheet';
@@ -146,7 +147,7 @@ export default function MainScreen() {
     } catch (error) {
       console.error("Errore durante la scansione:", error);
       // Mostra un messaggio di errore all'utente
-      //Alert.alert("Errore", "Si è verificato un errore durante la scansione. Riprova.");
+      Alert.alert("Errore", "Si è verificato un errore durante la scansione. Riprova.");
     } finally {
       setIsScanning(false);
       rotateAnim.setValue(0);

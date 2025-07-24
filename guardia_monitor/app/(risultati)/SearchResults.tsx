@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useOTPStore } from "../../store/otpStore";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FlashList } from "@shopify/flash-list";
 import Spinner from "@/components/Spinner";
 
@@ -66,13 +66,21 @@ export default function SearchResults() {
 
     const [chartData, setChartData] = useState<any[]>([]);
 
+    const isMounted = useRef(true);
+
     useEffect(() => {
+        // Resetta a true quando il componente viene montato
+        isMounted.current = true;
+    
         const fetchBreaches = async () => {
-            if (!email) return;
+            if (!email || !isMounted.current) return;
             
             try {
                 setLoading(true);
                 const response = await fetch(`https://guardiadigitale.it/api/proxy_hipb.php?email=${encodeURIComponent(email)}`);
+                
+                if (!isMounted.current) return; // Non fare nulla se il componente è stato smontato
+                
                 if (response.status === 404) {
                     setBreaches([]);
                     return;
@@ -83,22 +91,35 @@ export default function SearchResults() {
                 }
                 
                 const data = await response.json();
-                setBreaches(data || []);
-                
-                if (data && data.length > 0) {
-                    const processedData = processDataClasses(data);
-                    setChartData(processedData);
+                if (isMounted.current) {  // Controlla ancora se montato
+                    setBreaches(data || []);
+                    
+                    if (data && data.length > 0) {
+                        const processedData = processDataClasses(data);
+                        setChartData(processedData);
+                    }
                 }
             } catch (err) {
-                setError(err instanceof Error ? err.message : 'Si è verificato un errore');
-                console.error('Error fetching breach data:', err);
+                if (isMounted.current) {
+                    setError(err instanceof Error ? err.message : 'Si è verificato un errore');
+                    console.error('Error fetching breach data:', err);
+                }
             } finally {
-               setLoading(false);
+                if (isMounted.current) {
+                    setLoading(false);
+                }
             }
         };
-
+    
         fetchBreaches();
+    
+        // Cleanup function
+        return () => {
+            isMounted.current = false;
+        };
     }, [email]);
+
+
 
     if (loading) {
         return (
@@ -241,11 +262,14 @@ export default function SearchResults() {
             </View>
           </View>
         </View>
+        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
         <Ionicons 
           name="chevron-forward" 
           size={24} 
-          color="#7C8DB5"
+          color="white"
+          style={{backgroundColor: '#28338a',borderRadius: 20,padding:2}}
         />
+        </View>
       </TouchableOpacity>
     );
   }}
