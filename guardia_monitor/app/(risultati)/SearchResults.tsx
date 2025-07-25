@@ -135,7 +135,7 @@ export default function SearchResults() {
                 }} />
                 <View style={styles.centeredContent}>
                     <Spinner />
-                    <Text style={styles.loadingText}>Ricerca in corso...</Text>
+                    <Text style={styles.loadingText}>Caricamento elenco in corso...</Text>
                 </View>
             </View>
         );
@@ -498,7 +498,7 @@ const styles = StyleSheet.create({
     },
     loadingText: {
         fontSize: 18,
-        color: '#666',
+        color: '#dbe7f2',
         marginTop: 20,
     },
     successTitle: {

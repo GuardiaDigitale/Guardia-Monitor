@@ -223,7 +223,7 @@ export default function MainScreen() {
               buttonContent.disabled && styles.disabledIcon
             ]}>
               <Image 
-                source={require('@/assets/images/scanButton.png')}
+                source={require('@/assets/images/buttonLogo.png')}
                 style={[
                   styles.shieldImage,
                   buttonContent.disabled && styles.disabledImage
@@ -326,8 +326,8 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.95 }],
   },
   shieldImage: {
-    width: 70,
-    height: 70,
+    width: 80,
+    height: 80,
     tintColor: '#ffffff', // Colora l'icona di bianco
   },
   disabledImage: {
