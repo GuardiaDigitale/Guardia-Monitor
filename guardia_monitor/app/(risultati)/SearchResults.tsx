@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
-import { Stack } from "expo-router";
+import { Stack, useFocusEffect } from "expo-router";
 import { TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useOTPStore } from "../../store/otpStore";
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FlashList } from "@shopify/flash-list";
 import Spinner from "@/components/Spinner";
 
@@ -68,8 +68,7 @@ export default function SearchResults() {
 
     const isMounted = useRef(true);
 
-    useEffect(() => {
-        // Resetta a true quando il componente viene montato
+    useFocusEffect(useCallback(() => {
         isMounted.current = true;
     
         const fetchBreaches = async () => {
@@ -117,7 +116,7 @@ export default function SearchResults() {
         return () => {
             isMounted.current = false;
         };
-    }, [email]);
+    }, [email]));
 
 
 
