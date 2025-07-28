@@ -187,7 +187,7 @@ export default function MainScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Stack.Screen options={{ headerShown: true, headerTitleStyle: { color: '#dbe7f2',display: 'none' }, title: '', headerStyle: { backgroundColor: '#28338a' }, headerTintColor: '#fff', 
+      <Stack.Screen options={{headerTitle: 'Home', headerShown: true, headerTitleStyle: { color: '#dbe7f2' }, title: 'Home', headerStyle: { backgroundColor: '#28338a' }, headerTintColor: '#fff', 
       headerLeft: () => (
         <TouchableOpacity style={{ paddingLeft: 15 }} onPress={() => navigation.openDrawer()}>
           <Ionicons name="menu" size={30} color="#dbe7f2" />
@@ -237,7 +237,7 @@ export default function MainScreen() {
         <View style={styles.textContainer}>
           <Text style={styles.buttonText}>{buttonContent.text}</Text>
           <Text style={styles.buttonSubtext}>
-            {isAuthenticated ? 'premi per iniziare la scansione' : ''}
+            {isAuthenticated && !isScanning ? 'premi per iniziare la scansione' : ''}
           </Text>
         </View>
       </View>
@@ -252,7 +252,7 @@ export default function MainScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#28338a',
+    backgroundColor: '#dbe7f2',
   },
   topBar: {
     flexDirection: 'row',
@@ -282,13 +282,13 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     paddingHorizontal: 30,
-    paddingTop: 20,
+    paddingTop: 30,
     paddingBottom: 40,
   },
   title: {
     fontSize: 22,
     fontWeight: '700',
-    color: '#dbe7f2',
+    color: '#54a4c7',
     textAlign: 'center',
     lineHeight: 28,
     letterSpacing: 0.5,
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     borderRadius: 70,
-    backgroundColor: '#7fb3d3',
+    backgroundColor: '#54a4c7',
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   disabledIcon: {
-    backgroundColor: '#95a5d8',
+    backgroundColor: '#54a4c7',
     opacity: 0.4,
     transform: [{ scale: 0.95 }],
   },
@@ -366,7 +366,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   buttonText: {
-    color: '#b8c5f2',
+    color: '#54a4c7',
     fontSize: 28,
     fontWeight: '800',
     textAlign: 'center',
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   buttonSubtext: {
-    color: '#b8c5f2',
+    color: '#54a4c7',
     fontSize: 16,
     textAlign: 'center',
     letterSpacing: 0.5,

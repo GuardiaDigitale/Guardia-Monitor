@@ -78,9 +78,9 @@ export function CustomDrawerContent(props: any) {
       {/* Footer con versione */}
       <View style={styles.footer}>
       <Image 
-    source={require('@/assets/images/GD.png')}
-    style={styles.footerLogo}
-  />
+        source={require('@/assets/images/GD.png')}
+        style={styles.footerLogo}
+      />
         <Text style={styles.versionText}>Versione {appVersion}</Text>
         <Text style={styles.copyrightText}>© 2025 Guardia Digitale</Text>
       </View>

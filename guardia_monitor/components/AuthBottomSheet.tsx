@@ -376,13 +376,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#2c3e50',
+    color: '#28338a',
     textAlign: 'center',
     marginBottom: 8,
   },
   subtitle: {
     fontSize: 16,
-    color: '#7f8c8d',
+    color: '#28338a',
     textAlign: 'center',
     marginBottom: 24,
     lineHeight: 22,
@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   button: {
-    backgroundColor: '#54a4c7',
+    backgroundColor: '#28338a',
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
@@ -426,9 +426,10 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   linkText: {
-    color: '#54a4c7',
+    color: '#28338a',
     fontSize: 16,
     fontWeight: '500',
+    textDecorationLine: 'underline',
   },
   authenticatedInfo: {
     backgroundColor: '#f8f9fa',
@@ -448,6 +449,7 @@ const styles = StyleSheet.create({
   },
   centeredContent: {
     flex: 1,
+    marginTop:48,
     justifyContent: 'center',
     alignItems: 'center',
   },

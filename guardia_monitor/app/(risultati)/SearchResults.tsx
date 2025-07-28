@@ -94,6 +94,7 @@ export default function SearchResults() {
                     setBreaches(data || []);
                     
                     if (data && data.length > 0) {
+
                         const processedData = processDataClasses(data);
                         setChartData(processedData);
                     }
@@ -193,10 +194,11 @@ export default function SearchResults() {
         <View style={styles.container}>
             <Stack.Screen options={{ 
                 headerShown: true, 
-                title: 'Risultati',
+                title: 'Elenco violazioni',
+                headerStyle: { backgroundColor: '#28338a' }, headerTintColor: '#fff',
                 headerRight: () => (
                     <TouchableOpacity onPress={() => router.replace('/(risultati)/PreliminarySearchResults')}>
-                       <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
+                       <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#fff" />
                     </TouchableOpacity>
                 )
             }} />
@@ -216,7 +218,7 @@ export default function SearchResults() {
       <TouchableOpacity 
         style={{ 
           backgroundColor: '#dbe7f2',
-          borderRadius: 32,
+          borderRadius: 10,
           padding: 20,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 4 },
@@ -235,11 +237,15 @@ export default function SearchResults() {
         <View style={styles.breachContent}>
           {/* Logo */}
           <View style={styles.logoContainer}>
-            <Image 
+            {item.LogoPath !== "https://logos.haveibeenpwned.com/List.png" ? <Image 
               source={{ uri: item.LogoPath }} 
               style={styles.logo} 
               resizeMode="contain"
-            />
+            /> : <Image 
+              source={require('@/assets/images/react-logo.png')} 
+              style={styles.logo} 
+              resizeMode="contain"
+            />}
           </View>
           
           {/* Testo */}
@@ -285,15 +291,10 @@ export default function SearchResults() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#28338a',
+        backgroundColor: '#fff',
         padding: 16,
     },
-    container: {
-      flex: 1,
-      backgroundColor: '#28338a',
-      padding: 16,
-  },
-  listContainer: {
+    listContainer: {
       flex: 1,
       paddingTop: 16,
   },
@@ -311,7 +312,9 @@ const styles = StyleSheet.create({
   logoContainer: {
       width: 50,
       height: 50,
-      borderRadius: 25,
+      borderRadius: 15,
+      borderColor: '#043474',
+      borderWidth: 1,
       backgroundColor: 'white',
       justifyContent: 'center',
       alignItems: 'center',
@@ -328,7 +331,7 @@ const styles = StyleSheet.create({
   breachName: {
       fontSize: 18,
       fontWeight: '600',
-      color: '#2D3A5E',
+      color: '#043474',
       marginBottom: 4,
   },
   metaContainer: {
@@ -342,10 +345,11 @@ const styles = StyleSheet.create({
   },
   metaIcon: {
       marginRight: 4,
+      color: '#043474',
   },
   metaText: {
       fontSize: 14,
-      color: '#7C8DB5',
+      color: '#043474',
   },
     scrollView: {
         flex: 1,
@@ -381,7 +385,7 @@ const styles = StyleSheet.create({
       },
       moreInfoText: {
         fontSize: 13,
-        color: '#7C8DB5',
+        color: '#043474',
         marginBottom: 4,
       },
       dataClassesPreview: {
@@ -405,7 +409,7 @@ const styles = StyleSheet.create({
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.1,
-        shadowRadius: 10,
+        shadowRadius: 5,
         elevation: 3,
       },
       statusBadge: {

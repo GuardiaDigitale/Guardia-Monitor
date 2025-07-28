@@ -69,9 +69,15 @@ export default function ResultDetail() {
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Header con Logo e Titolo */}
         <View style={styles.header}>
-          {breach.LogoPath && (
+          {breach.LogoPath !== "https://logos.haveibeenpwned.com/List.png" ? (
             <Image 
               source={{ uri: breach.LogoPath }} 
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          ) : (
+            <Image 
+              source={require('@/assets/images/react-logo.png')} 
               style={styles.logo}
               resizeMode="contain"
             />
@@ -107,14 +113,15 @@ export default function ResultDetail() {
 
         {/* Statistiche */}
         <View style={styles.statsContainer}>
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>{formatPwnCount(breach.PwnCount)}</Text>
-            <Text style={styles.statLabel}>Account Compromessi</Text>
+        <View style={styles.statItem}>
+            <Text style={styles.statLabel}>Data del Breach</Text>
+            <Text style={styles.statNumber}>{formatDate(breach.BreachDate)}</Text>
           </View>
           <View style={styles.statDivider} />
           <View style={styles.statItem}>
-            <Text style={styles.statNumber}>{formatDate(breach.BreachDate)}</Text>
-            <Text style={styles.statLabel}>Data del Breach</Text>
+            <Text style={styles.statLabel}>Account Compromessi</Text>
+            <Text style={styles.statNumber}>{formatPwnCount(breach.PwnCount)}</Text>
+           
           </View>
         </View>
 
@@ -295,6 +302,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#54a4c7',
     textAlign: 'center',
+    marginBottom: 30
   },
   verificationContainer: {
     flexDirection: 'row',

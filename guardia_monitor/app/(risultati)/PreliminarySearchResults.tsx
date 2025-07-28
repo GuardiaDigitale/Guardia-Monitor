@@ -144,10 +144,11 @@ export default function PreliminarySearchResults() {
             <View style={styles.container}>
                 <Stack.Screen options={{ 
                     headerShown: true, 
+                    headerStyle: { backgroundColor: '#28338a' }, headerTintColor: '#fff',
                     title: 'Caricamento',
                     headerRight: () => (
                         <TouchableOpacity onPress={() => router.replace('/')}>
-                           <Ionicons name="home" size={24} style={{marginRight: 10}} color="#043474" />
+                           <Ionicons name="home" size={24} style={{marginRight: 10}} color="#fff" />
                         </TouchableOpacity>
                     )
                 }} />
@@ -164,10 +165,11 @@ export default function PreliminarySearchResults() {
             <View style={styles.container}>
                 <Stack.Screen options={{ 
                     headerShown: true, 
+                    headerStyle: { backgroundColor: '#28338a' }, headerTintColor: '#fff',
                     title: 'Errore',
                     headerRight: () => (
                         <TouchableOpacity onPress={() => router.replace('/')}>
-                           <Ionicons name="home" size={24} style={{marginRight: 10}} color="#043474" />
+                           <Ionicons name="home" size={24} style={{marginRight: 10}} color="#fff" />
                         </TouchableOpacity>
                     )
                 }} />
@@ -186,10 +188,11 @@ export default function PreliminarySearchResults() {
           }}>
             <Stack.Screen options={{
               headerShown: true,
+              headerStyle: { backgroundColor: '#28338a' }, headerTintColor: '#fff',
               title: 'Nessuna violazione',
               headerRight: () => (
                 <TouchableOpacity onPress={() => router.replace('/')}>
-                  <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#043474" />
+                  <Ionicons name="arrow-back" size={24} style={{marginRight: 10}} color="#fff" />
                 </TouchableOpacity>
               )
             }} />
@@ -230,24 +233,25 @@ export default function PreliminarySearchResults() {
             <ScrollView style={styles.scrollContainer}>
                 <Stack.Screen options={{ 
                     headerShown: true, 
-                    title: 'Risultati Preliminari',
+                    headerStyle: { backgroundColor: '#28338a' }, headerTintColor: '#fff',
+                    title: 'Risultato',
                     headerRight: () => (
                         <TouchableOpacity onPress={() => router.replace('/')}>
-                           <Ionicons name="home" size={24} style={{marginRight: 10}} color="#043474" />
+                           <Ionicons name="home" size={24} style={{marginRight: 10}} color="#fff" />
                         </TouchableOpacity>
                     )
                 }} />
                 
                 <View style={styles.container}>
-                <View style={styles.statsContainer}>
-                        <Text style={[styles.title, { fontSize: 24, fontWeight: 'bold' }]}>
-                            {breaches.length} Violazioni trovate
-                        </Text>
-                    </View>
+              
     
                     {chartData.length > 0 && (
                         <View style={styles.chartContainer}>
-                            <Text style={styles.chartTitle}>Dati Compromessi</Text>
+                            <View style={styles.statsContainer}>
+                                <Text style={[styles.title, { fontSize: 24, fontWeight: 'bold' }]}>
+                                    {breaches.length} Violazioni trovate
+                                </Text>
+                            </View>
                             <View style={styles.chartWrapper}>
                             <PolarChart
         data={chartData} 
@@ -306,6 +310,13 @@ export default function PreliminarySearchResults() {
                     </View>*/}
                     <View style={styles.buttonContainer}>
                     <TouchableOpacity 
+                        style={styles.button} 
+                        onPress={() => router.replace('/(risultati)/SearchResults')}
+                    >
+                        <Text style={styles.buttonText}>Visualizza Elenco</Text>
+                        <Ionicons name="arrow-forward" size={20} color="white" style={{marginLeft: 8}} />
+                    </TouchableOpacity>
+                    <TouchableOpacity 
                         style={styles.secondaryButton} 
                         onPress={() => router.replace('/(contatti)/ConsulenzaIntro')}
                     >
@@ -313,13 +324,7 @@ export default function PreliminarySearchResults() {
                         <Ionicons name="arrow-forward" size={20} color="white" style={{marginLeft: 8}} />
                     </TouchableOpacity>
     
-                    <TouchableOpacity 
-                        style={styles.button} 
-                        onPress={() => router.replace('/(risultati)/SearchResults')}
-                    >
-                        <Text style={styles.buttonText}>Visualizza Elenco</Text>
-                        <Ionicons name="arrow-forward" size={20} color="white" style={{marginLeft: 8}} />
-                    </TouchableOpacity>
+                   
                     </View>
                 </View>
             </ScrollView>
