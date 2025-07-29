@@ -242,7 +242,7 @@ export default function SearchResults() {
               style={styles.logo} 
               resizeMode="contain"
             /> : <Image 
-              source={require('@/assets/images/react-logo.png')} 
+              source={require('@/assets/images/globe.png')} 
               style={styles.logo} 
               resizeMode="contain"
             />}
@@ -322,8 +322,8 @@ const styles = StyleSheet.create({
       overflow: 'hidden',
   },
   logo: {
-      width: 30,
-      height: 30,
+      width: 35,
+      height: 35,
   },
   textContainer: {
       flex: 1,
@@ -501,7 +501,7 @@ const styles = StyleSheet.create({
     },
     loadingText: {
         fontSize: 18,
-        color: '#dbe7f2',
+        color: '#54a4c7',
         marginTop: 20,
     },
     successTitle: {

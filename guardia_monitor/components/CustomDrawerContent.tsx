@@ -37,7 +37,7 @@ export function CustomDrawerContent(props: any) {
       {/* Header con logo e titolo */}
       <View style={styles.header}>
         <Image 
-          source={require('@/assets/images/GD.png')} 
+          source={require('@/assets/images/logoAppBlue.png')} 
           style={styles.logo} 
           resizeMode="cover"
         />

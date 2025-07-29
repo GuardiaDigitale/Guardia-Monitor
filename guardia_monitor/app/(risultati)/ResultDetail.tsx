@@ -77,7 +77,7 @@ export default function ResultDetail() {
             />
           ) : (
             <Image 
-              source={require('@/assets/images/react-logo.png')} 
+              source={require('@/assets/images/globe.png')} 
               style={styles.logo}
               resizeMode="contain"
             />
