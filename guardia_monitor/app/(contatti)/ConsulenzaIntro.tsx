@@ -2,10 +2,11 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { Stack, useRouter } from 'expo-router';
 import { Alert, Image, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from 'expo-router';
 
 export default function ConsulenzaIntroScreen() {
   const router = useRouter();
-
+  const navigation = useNavigation();
   const handleTelefonare = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     Linking.openURL('tel:+390550108325');
@@ -45,14 +46,19 @@ export default function ConsulenzaIntroScreen() {
         options={{
           title: 'Consulenza',
           headerStyle: {
-            backgroundColor: '#043474',
+            backgroundColor: '#28338a',
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+          headerLeft: () => (
+                  <TouchableOpacity style={{ paddingLeft: 15 }} onPress={() => navigation.openDrawer()}>
+                    <Ionicons name="menu" size={30} color="#dbe7f2" />
+                  </TouchableOpacity>
+                ),
           headerRight: () => (
-            <TouchableOpacity style={{padding: 8}} onPress={() => router.push('/')}
+            <TouchableOpacity style={{paddingRight: 15}} onPress={() => router.push('/')}
             >
               <Ionicons name="home" size={24} color="#fff" />
             </TouchableOpacity>

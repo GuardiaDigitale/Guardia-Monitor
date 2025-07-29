@@ -51,7 +51,7 @@ export default function PrivacyScreen() {
           }}
           style={styles.backButton}
       >
-          <Ionicons name="arrow-back" size={24} color="#043474" />
+          <Ionicons name="arrow-back" size={24} color="#dbe7f2" />
       </TouchableOpacity>
   );
   const HeaderRight = () => (
@@ -62,7 +62,7 @@ export default function PrivacyScreen() {
           }}
           style={styles.closeButton}
       >
-          <Ionicons name="home" size={24} color="#043474" />
+          <Ionicons name="home" size={24} color="#dbe7f2" />
       </TouchableOpacity>
   );
 
@@ -75,8 +75,11 @@ export default function PrivacyScreen() {
                   headerLeft: () => <HeaderLeft />, // Ora è a sinistra
                   headerRight: () => <HeaderRight />,
                   headerTitleStyle: {
-                      color: '#333',
+                      color: '#dbe7f2',
                       fontWeight: '600',
+                  },
+                  headerStyle: {
+                    backgroundColor: '#28338a',
                   },
                   headerShadowVisible: false,
               }} 

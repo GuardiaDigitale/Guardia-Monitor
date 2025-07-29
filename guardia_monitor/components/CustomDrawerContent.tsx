@@ -42,7 +42,6 @@ export function CustomDrawerContent(props: any) {
           resizeMode="cover"
         />
         <Text style={styles.headerTitle}>Guardia Monitor</Text>
-        <Text style={styles.headerSubtitle}>Gestione Conformità</Text>
       </View>
 
       {/* Sezione menu */}
@@ -117,15 +116,15 @@ const styles = StyleSheet.create({
     //backgroundColor: '#f8f9fa',
   },
   logo: {
-    width: 160,
-    height: 160,
+    width: 120,
+    height: 120,
     marginBottom: 10,
     alignSelf: 'center',
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#2c3e50',
+    color: '#043474',
     marginTop: 8,
   },
   headerSubtitle: {
@@ -153,12 +152,12 @@ const styles = StyleSheet.create({
   },
   versionText: {
     fontSize: 12,
-    color: '#7f8c8d',
+    color: '#043474',
     marginBottom: 4,
   },
   copyrightText: {
     fontSize: 12,
-    color: '#7f8c8d',
+    color: '#043474',
   },
   footerLogo: {
     width: 140,

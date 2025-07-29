@@ -15,6 +15,7 @@ import AuthBottomSheet from '../components/AuthBottomSheet';
 import * as Haptics from 'expo-haptics';
 import { Stack, useNavigation, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window');
 
@@ -28,6 +29,9 @@ export default function MainScreen() {
   const pulseAnim = useRef(new Animated.Value(1)).current;
   const rotateAnim = useRef(new Animated.Value(0)).current;
   const router = useRouter();
+  const { isVerified, clearOTP } = useOTPStore();
+  const [bottomSheetKey, setBottomSheetKey] = useState(0);
+
 
   useEffect(() => {
     const unsubscribe = useOTPStore.subscribe(
@@ -192,7 +196,19 @@ export default function MainScreen() {
         <TouchableOpacity style={{ paddingLeft: 15 }} onPress={() => navigation.openDrawer()}>
           <Ionicons name="menu" size={30} color="#dbe7f2" />
         </TouchableOpacity>
-      ) }} 
+      ),
+      headerRight: () => (
+        isAuthenticated ? (
+          <TouchableOpacity disabled={isScanning} style={{ paddingRight: 15 }} onPress={async () => {
+            await clearOTP();
+            setIsAuthenticated(false);
+            setBottomSheetKey(prev => prev + 1);
+          }}>
+            <Ionicons name="log-out-outline" size={30} disabled={isScanning} color="#dbe7f2" />
+          </TouchableOpacity>
+        ) : null
+      )
+    }} 
       />
       <View style={styles.header}>
         <Text style={styles.title}>
@@ -243,6 +259,7 @@ export default function MainScreen() {
       </View>
 
       <AuthBottomSheet
+        key={bottomSheetKey}
         onAuthSuccess={handleAuthSuccess}
       />
     </SafeAreaView>
