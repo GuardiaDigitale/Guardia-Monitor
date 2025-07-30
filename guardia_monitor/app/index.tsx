@@ -47,6 +47,34 @@ export default function MainScreen() {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    const animation = Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, {
+          toValue: isScanning ? 1.2 : 1.1,
+          duration: isScanning ? 800 : 1600,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: isScanning ? 800 : 1600,
+          useNativeDriver: true,
+        })
+      ])
+    );
+  
+    if (isAuthenticated) {
+      animation.start();
+    } else {
+      animation.stop();
+      pulseAnim.setValue(1);
+    }
+  
+    return () => {
+      animation.stop();
+    };
+  }, [isAuthenticated, isScanning]); 
+
   const checkAuthStatus = async () => {
     await useOTPStore.getState().loadOTP();
     const { isVerified, email } = useOTPStore.getState();
@@ -197,7 +225,7 @@ export default function MainScreen() {
           <Ionicons name="menu" size={30} color="#dbe7f2" />
         </TouchableOpacity>
       ),
-      headerRight: () => (
+      /*headerRight: () => (
         isAuthenticated ? (
           <TouchableOpacity disabled={isScanning} style={{ paddingRight: 15 }} onPress={async () => {
             await clearOTP();
@@ -208,7 +236,7 @@ export default function MainScreen() {
           </TouchableOpacity>
         ) : null
       )
-    }} 
+    */}} 
       />
       <View style={styles.header}>
         <Text style={styles.title}>
@@ -228,8 +256,9 @@ export default function MainScreen() {
               styles.iconContainer,
               {
                 transform: [
-                  { scale: isAuthenticated ? Animated.multiply(scaleAnim, pulseAnim) : scaleAnim },
-                  { rotate: isScanning ? rotate : '0deg' }
+                  { scale: isAuthenticated 
+                    ? Animated.multiply(scaleAnim, pulseAnim) 
+                    : scaleAnim },
                 ]
               }
             ]}

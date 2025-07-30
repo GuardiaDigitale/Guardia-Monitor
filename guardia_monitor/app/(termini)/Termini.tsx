@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -34,6 +34,9 @@ export default function Terms() {
             }} />
             
             <ScrollView style={styles.contentContainer}>
+                <View style={styles.headerContainer}>
+                    <Image source={require('../../assets/images/logoAppBlue.png')} style={styles.logo} />
+                </View>
                 <Text style={styles.title}>Termini e Condizioni</Text>
                 <Text style={styles.date}>11 Luglio 2025</Text>
                 
@@ -74,6 +77,14 @@ const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
         padding: 20,
+    },
+    headerContainer: {
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    logo: {
+        width: 120,
+        height: 120,
     },
     title: {
         fontSize: 24,

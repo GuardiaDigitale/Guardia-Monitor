@@ -1,4 +1,4 @@
-const IS_DEV = true;
+const IS_DEV = false;
 const IS_PROD = process.env.APP_VARIANT === "production";
 
 const getAppName = () => {
@@ -39,10 +39,10 @@ const getBundleIdentifier = () => {
 
 const getProjectId = () => {
   if (IS_PROD) {
-    return "0fe898f8-caf7-4a0a-8e31-83dba844cee9";
+    return "eca9c260-6571-4369-bf1f-b2fe0732477e";
   }
   if (IS_DEV) {
-    return "0fe898f8-caf7-4a0a-8e31-83dba844cee9";
+    return "eca9c260-6571-4369-bf1f-b2fe0732477e";
   }
 };
 
@@ -74,23 +74,25 @@ export default ({ config }) => {
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/logoApp.png",
-    scheme: getScheme(),
+    scheme: "guardia-monitor",
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     splash: {
-      image: "./assets/images/GD.png",
+      image: "./assets/images/logoAppBlue.png",
       resizeMode: "contain",
       backgroundColor: "#ffffff",
       imageWidth: 200
     },
     ios: {
       supportsTablet: true,
-      bundleIdentifier: getBundleIdentifier(),
+      bundleIdentifier: "com.unirex.guardia.monitor",
       buildNumber: "1",
       config: {
         usesNonExemptEncryption: false,
       },
       infoPlist: {
+        CFBundleDisplayName: "Guardia Monitor",
+        CFBundleName: "Guardia Monitor",
         CFBundleDevelopmentRegion: "it"
       }
     },
@@ -100,7 +102,7 @@ export default ({ config }) => {
         backgroundColor: "#ffffff",
       },
       permissions: ["VIBRATE"],
-      package: getBundleIdentifier(),
+      package: "com.unirex.guardia.monitor",
       versionCode: 7,
       edgeToEdgeEnabled: true,
     },
@@ -114,7 +116,7 @@ export default ({ config }) => {
       [
         "expo-splash-screen",
         {
-          image: "./assets/images/GD.png",
+          image: "./assets/images/logoAppBlue.png",
           imageWidth: 200,
           resizeMode: "contain",
           backgroundColor: "#ffffff",
@@ -127,7 +129,7 @@ export default ({ config }) => {
     extra: {
       router: {},
       eas: {
-        projectId: getProjectId(),
+        projectId: "eca9c260-6571-4369-bf1f-b2fe0732477e",
       },
       apiUrl: getAPIUrl(),
       environment: getEnvironment(),

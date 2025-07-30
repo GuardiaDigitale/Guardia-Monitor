@@ -32,7 +32,7 @@ export default function ResultDetail() {
       "Attenzione - Malware Rilevato",
       "Questo breach è associato a malware. Ti consigliamo vivamente di eseguire una scansione antivirus completa su tutti i tuoi dispositivi per garantire la sicurezza del sistema.",
       [
-        { text: "Ho capito", style: "default" }
+        { text: "Ok", style: "default" }
       ]
     );
   };
