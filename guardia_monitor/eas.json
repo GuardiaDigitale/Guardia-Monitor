@@ -1,18 +1,54 @@
 {
   "cli": {
-    "version": ">= 15.0.15",
-    "appVersionSource": "remote"
+    "version": ">= 15.0.15"
   },
   "build": {
+    "fast": {
+      "ios": {
+        "resourceClass": "m1-medium"
+      }
+    },
     "development": {
+      "extends": "fast",
       "developmentClient": true,
       "distribution": "internal"
     },
+    "ios-simulator": {
+    "extends": "development",
+    "ios": {
+      "simulator": true
+    }
+    },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "extends": "fast",
+      "android": {
+        "buildType": "apk"
+      },
+      "ios":{
+        "simulator":true
+      },
+      "env": {
+        "ANDROID_SDK_ROOT": "/Users/mariofarina/Library/Android/sdk/"
+      }
+    },
+    "localProduction": {
+      "extends": "fast",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "ANDROID_SDK_ROOT": "/Users/mariofarina/Library/Android/sdk/"
+      }
     },
     "production": {
-      "autoIncrement": true
+        "extends": "fast",
+      "env": {
+        "ANDROID_SDK_ROOT": "/Users/mariofarina/Library/Android/sdk/"
+      },
+      "ios": {
+        "image": "macos-sequoia-15.3-xcode-16.2"
+      }
     }
   },
   "submit": {

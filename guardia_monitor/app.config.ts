@@ -8,6 +8,7 @@ const getAppName = () => {
   if (IS_DEV) {
     return "Guardia Monitor";
   }
+  return "Guardia Monitor";
 };
 
 const getSlug = () => {
@@ -17,6 +18,7 @@ const getSlug = () => {
   if (IS_DEV) {
     return "guardia-monitor";
   }
+  return "guardia-monitor";
 };
 
 const getScheme = () => {
@@ -68,7 +70,7 @@ const getEnvironment = () => {
 export default ({ config }) => {
   return {
     ...config,
-    name: getAppName(),
+    name: "Guardia Monitor",
     slug: getSlug(),
     owner: "unirex",
     version: "1.0.0",
@@ -85,8 +87,8 @@ export default ({ config }) => {
     },
     ios: {
       supportsTablet: true,
-      bundleIdentifier: "com.unirex.guardia.monitor",
-      buildNumber: "1",
+      bundleIdentifier: "it.unirex.guardia.monitor",
+      buildNumber: "3",
       config: {
         usesNonExemptEncryption: false,
       },
@@ -103,7 +105,7 @@ export default ({ config }) => {
       },
       permissions: ["VIBRATE"],
       package: "com.unirex.guardia.monitor",
-      versionCode: 7,
+      versionCode: 1,
       edgeToEdgeEnabled: true,
     },
     web: {
@@ -129,7 +131,7 @@ export default ({ config }) => {
     extra: {
       router: {},
       eas: {
-        projectId: "eca9c260-6571-4369-bf1f-b2fe0732477e",
+       "projectId": "cc6d9e32-c7c3-4f4a-a455-51ffdb732300"
       },
       apiUrl: getAPIUrl(),
       environment: getEnvironment(),

@@ -16,7 +16,7 @@ export default function ConsulenzaIntroScreen() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     const email = 'monitor@guardiadigitale.it';
     const subject = 'Richiesta di consulenza';
-    const body = 'Salve,\n\nvorrei ricevere una prima consulenza gratuita da GUARDIA DIGITALE circa la conformità alla Direttiva NIS2.\n\nCordiali saluti,';
+    const body = 'Salve,\n\nvorrei informazioni su come ricevere assistenza e consigli da GUARDIA DIGITALE per la protezione dei miei dati personali. \n\nCordiali saluti,';
     const url = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
     try {
@@ -44,7 +44,7 @@ export default function ConsulenzaIntroScreen() {
     <View style={styles.container}>
       <Stack.Screen
         options={{
-          title: 'Consulenza',
+          title: 'Contatti e richieste',
           headerStyle: {
             backgroundColor: '#28338a',
           },
@@ -68,7 +68,7 @@ export default function ConsulenzaIntroScreen() {
 
       <View style={styles.content}>
         <Text style={styles.mainTitle}>RICHIEDI</Text>
-        <Text style={styles.mainTitle}>UNA CONSULENZA</Text>
+        <Text style={styles.mainTitle}>INFORMAZIONI O ASSISTENZA</Text>
 
         <View style={styles.logoContainer}>
           <View style={styles.logoWrapper}>

@@ -18,7 +18,7 @@ const menuItems = [
     route: '/(termini)/Termini'
   },
   { 
-    label: 'Contatti e consulenze', 
+    label: 'Contatti e richieste', 
     icon: 'account',
     route: '/(contatti)/ConsulenzaIntro'
   },

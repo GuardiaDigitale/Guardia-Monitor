@@ -4,10 +4,8 @@ import { useOTPStore } from "@/store/otpStore";
 import { useEffect, useState } from 'react';
 import Spinner from "@/components/Spinner";
 import { Ionicons } from "@expo/vector-icons";
-import { Pie } from "victory-native";
-import { PolarChart } from "victory-native";
-import { LinearGradient } from "react-native-svg";
 import dataClasses from '@/assets/text/dataClasses.json';
+import DoughnutChart from "@/components/DoughnutChart";
 
 interface Breach {
     Name: string;
@@ -73,11 +71,6 @@ export default function PreliminarySearchResults() {
         return levelCounts.filter(level => level.value > 0);
     };
 
-    const translateDataClass = (enTerm: string): string => {
-        const found = dataClasses.find(item => item.en === enTerm);
-        return found ? found.it : enTerm; 
-      };
-
     useEffect(() => {
         const fetchBreaches = async () => {
             if (!email) return;
@@ -113,31 +106,6 @@ export default function PreliminarySearchResults() {
 
         fetchBreaches();
     }, [email]);
-
-    function calculateGradientPoints(
-        radius: number,
-        startAngle: number,
-        endAngle: number,
-        centerX: number,
-        centerY: number,
-      ) {
-        // Calcola il punto medio dell'angolo per l'effetto gradiente centrale
-        const midAngle = (startAngle + endAngle) / 2;
-      
-        // Converti angoli in radianti
-        const startRad = (Math.PI / 180) * startAngle;
-        const midRad = (Math.PI / 180) * midAngle;
-      
-        // Calcola il punto di partenza (lato interno vicino al centro del grafico)
-        const startX = centerX + radius * 0.5 * Math.cos(startRad);
-        const startY = centerY + radius * 0.5 * Math.sin(startRad);
-      
-        // Calcola il punto finale (lato esterno dell'angolo)
-        const endX = centerX + radius * Math.cos(midRad);
-        const endY = centerY + radius * Math.sin(midRad);
-      
-        return { startX, startY, endX, endY };
-      }
 
     if (loading) {
         return (
@@ -253,31 +221,16 @@ export default function PreliminarySearchResults() {
                                 </Text>
                             </View>
                             <View style={styles.chartWrapper}>
-                            <PolarChart
-        data={chartData} 
-        labelKey={"label"} 
-        valueKey={"value"} 
-        colorKey={"color"} 
-      >
-        <Pie.Chart innerRadius={60}>
-          {({ slice }) => {
-            const { startX, startY, endX, endY } = calculateGradientPoints(
-              slice.radius,
-              slice.startAngle,
-              slice.endAngle,
-              slice.center.x,
-              slice.center.y
-            );
-
-            return (
-              <Pie.Slice>
-                
-              </Pie.Slice>
-            );
-          }}
-        </Pie.Chart>
-      </PolarChart>
-    </View>
+                            <DoughnutChart 
+    data={allLevels.map(level => ({
+      value: level.value,
+      color: level.color,
+      label: level.label
+    }))}
+    size={220}
+    strokeWidth={30}
+  />
+</View>
                           
                             <View style={styles.legend}>
     <Text style={styles.legendTitle}>Legenda:</Text>
@@ -380,10 +333,10 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     chartWrapper: {
-        height: 200,
-        width: '100%',
-        marginBottom: 20,
-    },
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 20,
+      },
     legend: {
         width: '100%',
         gap: 5,
