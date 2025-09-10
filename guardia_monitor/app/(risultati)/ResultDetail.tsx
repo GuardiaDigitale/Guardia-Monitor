@@ -1,13 +1,110 @@
-import { View, Text, StyleSheet, ScrollView, Image, Alert, Linking } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
-import { TouchableOpacity } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 import dataClasses from '@/assets/text/dataClasses.json';
+import { Ionicons } from "@expo/vector-icons";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
+import { useState } from 'react';
+import { Alert, Image, Linking, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+const getBreachLevelInfo = (breach: any) => {
+  if (breach.IsSensitive) return { label: 'Violazione dati sensibili', color: '#71660d' };
+  if (breach.DataClasses.includes('Passwords')) return { label: 'Violazione password', color: '#d01317' };
+  if (breach.DataClasses.length >= 3) return { label: 'Violazione critica', color: '#e75e0d' };
+  if (breach.DataClasses.length === 2) return { label: 'Violazione normale', color: '#f6a214' };
+  return { label: 'Violazione bassa', color: '#f7d81f' };
+};
+
+const AdviceModal = ({ visible, onClose, breachLevel, color }) => {
+  const getAdvice = () => {
+    switch(breachLevel) {
+      case 'Violazione dati sensibili':
+        return {
+          title: 'Azione Richiesta: Massima Priorità',
+          steps: [
+            'Risulta sia riscontrata una violazione dei tuoi dati sensibili. Si consiglia rivolgersi al fornitore qualora indicato o ad esperti che possono aiutare a risolvere il caso.'
+          ]
+        };
+      case 'Violazione password':
+        return {
+          title: 'Azione Richiesta: Alta Priorità',
+          steps: [
+            'Risulta una fuga di password e anche la tua risulta essere stata compromessa. Si consiglia di cambiare la password associata al dominio e tutte le password simili ad essa.'
+          ]
+        };
+      case 'Violazione critica':
+        return {
+          title: 'Azione Consigliata',
+          steps: [
+            'Risulta sia stata una violazione critica ai tuoi dati, in cui non sono presenti dati sensibili. Si consiglia di verificare con il fornitore, qualora presente, o di rivolgersi ad esperti.'
+          ]
+        };
+      case 'Violazione normale':
+        return {
+          title: 'Avviso di Sicurezza',
+          steps: [
+            'Risulta una violazione di gravità normale, il pericolo non raggiunge dati sensibili o password. Si consiglia quindi di non preoccuparsi ma di fare attenzione alle proprie interazioni.'
+          ]
+        };
+      default:
+        return {
+          title: 'Informazione di Sicurezza',
+          steps: [
+            'Risulta una violazione bassa, non ci sono dati sensibili o privati in pericolo e non sembra esserci motivo di preoccuparsi.'
+          ]
+        };
+    }
+  };
+
+  const advice = getAdvice();
+
+  return (
+    <Modal
+      animationType="slide"
+      transparent={true}
+      visible={visible}
+      onRequestClose={onClose}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContainer}>
+          <View style={[styles.modalHeader, { backgroundColor: color }]}>
+            <Text style={{...styles.modalTitle, color: color === "#f7d81f" ? "#000" : "#fff"}}>{advice.title}</Text>
+            <Pressable onPress={onClose} style={styles.closeButton}>
+              <Ionicons name="close" size={24} color={color === "#f7d81f" ? "#000" : "#fff"} />
+            </Pressable>
+          </View>
+          
+          <ScrollView style={styles.modalContent}>
+            <View style={styles.adviceContainer}>
+              {advice.steps.map((step, index) => (
+                <View key={index} style={styles.stepContainer}>
+                  <Text style={styles.stepText}>{step}</Text>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+          
+          <View style={styles.modalFooter}>
+            <Pressable 
+              style={[styles.modalButton, { backgroundColor: color }]}
+              onPress={onClose}
+            >
+              <Text style={{...styles.modalButtonText, color: color === "#f7d81f" ? "#000" : "#fff"}}>Ho capito</Text>
+            </Pressable>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
+
 export default function ResultDetail() {
   const router = useRouter();
   const params = useLocalSearchParams();
   const breach = JSON.parse(params.breach as string);
+  const { label, color } = getBreachLevelInfo(breach);
+  const [modalVisible, setModalVisible] = useState(false);
+
+
+
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -174,6 +271,22 @@ export default function ResultDetail() {
           </View>*/}
         </View>}
       </ScrollView>
+      <View style={styles.footer}>
+          <TouchableOpacity 
+            style={[styles.actionButton, { backgroundColor: color }]}
+            onPress={() => {
+              setModalVisible(true);
+            }}
+          >
+            <Text style={{...styles.actionButtonText, color: color === "#f7d81f" ? "#000" : "#fff"}}>COSA POSSO FARE</Text>
+          </TouchableOpacity>
+        </View>
+        <AdviceModal 
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          breachLevel={label}
+          color={color}
+        />
     </View>
   );
 }
@@ -408,5 +521,103 @@ const styles = StyleSheet.create({
     color: '#54a4c7',
     fontWeight: '600',
     textDecorationLine: 'underline',
+  },
+  footer: {
+    padding: 20,
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+    backgroundColor: '#fff',
+  },
+  actionButton: {
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  actionButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalContainer: {
+    width: '100%',
+    maxHeight: '80%',
+    backgroundColor: 'white',
+    borderRadius: 12,
+    overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalHeader: {
+    padding: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  modalTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    flex: 1,
+  },
+  closeButton: {
+    padding: 4,
+  },
+  modalContent: {
+    padding: 16,
+  },
+  adviceContainer: {
+    marginBottom: 16,
+  },
+  stepContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 12,
+  },
+  stepNumber: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+    flexShrink: 0,
+  },
+  stepNumberText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  stepText: {
+    flex: 1,
+    fontSize: 15,
+    lineHeight: 22,
+    fontWeight: '500',
+    color: '#333',
+  },
+  modalFooter: {
+    padding: 16,
+    borderTopWidth: 1,
+    borderTopColor: '#eee',
+  },
+  modalButton: {
+    padding: 14,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
