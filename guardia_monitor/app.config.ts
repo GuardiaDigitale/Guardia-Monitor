@@ -88,7 +88,7 @@ export default ({ config }) => {
     ios: {
       supportsTablet: true,
       bundleIdentifier: "it.unirex.guardia.monitor",
-      buildNumber: "3",
+      buildNumber: "4",
       config: {
         usesNonExemptEncryption: false,
       },
@@ -105,7 +105,7 @@ export default ({ config }) => {
       },
       permissions: ["VIBRATE"],
       package: "com.unirex.guardia.monitor",
-      versionCode: 1,
+      versionCode: 2,
       edgeToEdgeEnabled: true,
     },
     web: {

@@ -33,21 +33,21 @@ const AdviceModal = ({ visible, onClose, breachLevel, color }) => {
         return {
           title: 'Azione Consigliata',
           steps: [
-            'Risulta sia stata una violazione critica ai tuoi dati, in cui non sono presenti dati sensibili. Si consiglia di verificare con il fornitore, qualora presente, o di rivolgersi ad esperti.'
+            'È stata rilevata una violazione critica che interessa i tuoi dati. Non sono stati identificati dati sensibili esposti. Per garantire la massima sicurezza, ti consigliamo di contattare il fornitore del servizio o un esperto di sicurezza informatica per una valutazione approfondita.'
           ]
         };
       case 'Violazione normale':
         return {
           title: 'Avviso di Sicurezza',
           steps: [
-            'Risulta una violazione di gravità normale, il pericolo non raggiunge dati sensibili o password. Si consiglia quindi di non preoccuparsi ma di fare attenzione alle proprie interazioni.'
+            'Risulta una violazione di gravità media, il pericolo non raggiunge dati sensibili o password. Si consiglia quindi di non preoccuparsi ma di fare attenzione alle proprie interazioni.'
           ]
         };
       default:
         return {
           title: 'Informazione di Sicurezza',
           steps: [
-            'Risulta una violazione bassa, non ci sono dati sensibili o privati in pericolo e non sembra esserci motivo di preoccuparsi.'
+            'Risulta una violazione con rischio basso, non ci sono dati sensibili o privati in pericolo e non sembra esserci motivo di preoccuparsi.'
           ]
         };
     }
